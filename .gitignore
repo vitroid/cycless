@@ -1,2 +1,7 @@
 
 cycles/__pycache__/
+build/
+dist/
+
+cycless.egg-info/
+__pycache__/

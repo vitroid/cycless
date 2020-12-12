@@ -10,13 +10,13 @@ here = os.path.abspath(os.path.dirname(__file__))
 #README = codecs.open(os.path.join(here, 'README.txt'), encoding='utf8').read()
 #CHANGES = codecs.open(os.path.join(here, 'CHANGES.txt'), encoding='utf8').read()
 
-with codecs.open(os.path.join(os.path.dirname(__file__), 'cycles', '__init__.py'),
+with codecs.open(os.path.join(os.path.dirname(__file__), 'cycless', '__init__.py'),
                  encoding='utf8') as version_file:
     metadata = dict(re.findall(r"""__([a-z]+)__ = "([^"]+)""", version_file.read()))
 
 long_desc = "".join(open("README.md").readlines())
 
-setup(name='cycles',
+setup(name='cycless',
       python_requires='>=3.5',
       version=metadata['version'],
       description='A collection of algorithms for cycles in a graph.',

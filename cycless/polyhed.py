@@ -8,7 +8,7 @@ from logging import getLogger
 from collections import defaultdict
 import numpy as np
 
-from cycles.cycles import Cycles
+from cycless.cycles import cycles_iter
 
 def cage_to_graph(cage, ringlist):
     "Convert a cage as a set of cycles to a graph. "
@@ -59,34 +59,34 @@ def _MergeCycles(cycle1,cycle2,first,second):
     return cycle
 
 
-def Triplets(cycle):
+def _Triplets(cycle):
     tri = []
     for i in range(len(cycle)):
         tri.append((cycle[i-2],cycle[i-1],cycle[i]))
     return tri
 
 
-def Edges(cycle):
+def _Edges(cycle):
     ed = []
     for i in range(len(cycle)):
         ed.append((cycle[i-1],cycle[i]))
     return ed
 
 
-def Polyhed(_cycles, maxfragsize=20):
+def polyhedra_iter(_cycles, maxfragsize=20):
     """
-    #A generator of polyhedra (combinations of cycles)
+    A generator of polyhedra (combinations of cycles)
     """
     #Local functions
 
     def _RegisterTriplets(cycle,cycleid):
-        for triplet in Triplets(cycle):
+        for triplet in _Triplets(cycle):
             _cyclesAtATriplet[triplet].append(cycleid)
             tr = tuple(reversed(triplet))
             _cyclesAtATriplet[tr].append(cycleid)
 
     def _RegisterEdges(cycle,cycleid):
-        for edge in Edges(cycle):
+        for edge in _Edges(cycle):
             _cyclesAtAnEdge[edge].append(cycleid)
             ed = tuple(reversed(edge))
             _cyclesAtAnEdge[ed].append(cycleid)
@@ -113,7 +113,7 @@ def Polyhed(_cycles, maxfragsize=20):
         for cycleid in fragment:
             nodes = _cycles[cycleid]
             allnodes |= set(nodes)
-            tris |= set(Triplets(nodes))
+            tris |= set(_Triplets(nodes))
         for tri in tris:
             for cycleid in _cyclesAtATriplet[tri]:
                 if cycleid not in fragment:
@@ -131,7 +131,7 @@ def Polyhed(_cycles, maxfragsize=20):
         logger.debug(f"#{peri} {fragment}")
         if len(fragment) > maxfragsize:
             #logger.debug("#LIMITTER")
-            return False
+            return
         #if the perimeter closes,
         if len(peri) == 0:
             #If the polyhedron has internal vertices that are not a part of the polyhedron (i.e. if the polyhedron does not divide the total network into to components)
@@ -141,19 +141,21 @@ def Polyhed(_cycles, maxfragsize=20):
                     #Add the fragment to the list.
                     #A fragment is a set of cycle IDs of the faces
                     fs = frozenset(fragment)
-                    _vitrites.add(fs)
+                    if fs not in _vitrites:
+                        yield fragment
+                        _vitrites.add(fs)
                 else:
                     logger.debug("It contains extra cycles(s).")
             else:
                 logger.debug("It has internal vertices.")
             #Search finished.
-            return True
+            return
         #If the perimeter is still open,
         for i in range(len(peri)):
             #If any vertex on the perimeter is shared by more than two faces,
             if numCyclesOnTheNode[peri[i]] > 2:
                 logger.debug("#Failed(2)")
-                return False
+                return
         for i in range(len(peri)):
             #Look up the node on the perimeter which is shared by two faces.
             if numCyclesOnTheNode[peri[i]] == 2:
@@ -185,7 +187,7 @@ def Polyhed(_cycles, maxfragsize=20):
                                     numCyclesOnTheNode[node] += 1
                                     mult = [numCyclesOnTheNode[i] for i in newperi]
                                     logger.debug(f"#{peri} {nodes} {edge} {newperi} {mult}")
-                                result = _Progress(origin, newperi, fragment | set([cycleid,]), numCyclesOnTheNode)
+                                yield from _Progress(origin, newperi, fragment | set([cycleid,]), numCyclesOnTheNode)
                                 for node in nodes:
                                     numCyclesOnTheNode[node] -= 1
                                 #if result == True:
@@ -194,7 +196,7 @@ def Polyhed(_cycles, maxfragsize=20):
                 if not trynext:
                     break
         logger.debug(f"#Failed to expand perimeter {peri} {fragment}")
-        return False
+        return
 
     logger = getLogger()
 
@@ -238,7 +240,7 @@ def Polyhed(_cycles, maxfragsize=20):
                         mult = [numCyclesOnTheNode[i] for i in newperi]
                         logger.debug("{0} {1} {2} {3} {4}".format(peri, nodes, edge, newperi,mult))
                     #Expand the perimeter by adding new faces to the polyhedron.
-                    _Progress(cycleid, newperi, set([cycleid,cycleid2]), numCyclesOnTheNode)
+                    yield from _Progress(cycleid, newperi, set([cycleid,cycleid2]), numCyclesOnTheNode)
                     #decrement the number-of-cycles-at-a-node counter
                     #for each node on the second cycle.
                     for node in nodes:
@@ -247,7 +249,7 @@ def Polyhed(_cycles, maxfragsize=20):
 
 
 def test():
-    g = nx.DiGraph()
+    g = nx.Graph()
     # a lattice graph of 4x4x4
     X,Y,Z = np.meshgrid(np.arange(4.0), np.arange(4.0), np.arange(4.0))
     X = X.reshape(64)
@@ -265,10 +267,9 @@ def test():
             if d @ d < 0.3**2:
                 g.add_edge(a,b)
     # PBC-compliant
-    c = Cycles(g, pos=coord)
-    A = [cycle for cycle in c.cycles_iter(4)]
+    A = [cycle for cycle in cycles_iter(g, 4, pos=coord)]
     print(f"Number of cycles (PBC compliant): {len(A)}")
-    vitrites = Polyhed(A)
+    vitrites = [v for v in polyhedra_iter(A)]
     print(f"Number of cubes: {len(vitrites)}")
 
 

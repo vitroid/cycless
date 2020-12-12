@@ -1,26 +1,19 @@
 #!/usr/bin/env python3
-"""
-Here is a sample program to decompose a hydrogen bond network into cycles.
-It is as close as possible to the one used in the paper, but it is slightly different from the code used in the actual analysis.
-"""
 
 import numpy as np
 import networkx as nx
 
 # for a directed graph
 
-class DiCycles(nx.DiGraph):
+def dicycles_iter(digraph, size, vec=False):
     """
-    A collection of methods for directed cycles.
+    List the cycles of the size only. No shortcuts are allowed during the search.
 
-    The edges of the digraph may contain its spatial orientation in the "vec" attribute. In that case, _find algorithm avoids a transversing (spanning) cycle in the periodic orthogonal cell. "vec" must be specified in the fractional coordinate. (The distance between the opposing surfaces is 1.)
+    If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.
     """
-    def __init__(self, data=None, vec=False):
-        super().__init__(data)
-        self.vec = vec
 
 
-    def _find(self, history, size):
+    def _find(digraph, history, size):
         """
         Recursively find a homodromic cycle.
 
@@ -31,35 +24,31 @@ class DiCycles(nx.DiGraph):
         head = history[0]
         last = history[-1]
         if len(history) == size:
-            for next in self.successors(last):
+            for next in digraph.successors(last):
                 if next == head:
                     # test the dipole moment of a cycle.
                     d = np.zeros(3)
-                    if self.vec:
+                    if vec:
                         for i in range(len(history)):
                             a,b = history[i-1], history[i]
-                            d += self[a][b]["vec"]
+                            d += digraph[a][b]["vec"]
                         if np.allclose(d, np.zeros(3)):
                             yield tuple(history)
                     else:
                         yield tuple(history)
         else:
-            for next in self.successors(last):
+            for next in digraph.successors(last):
                 if next < head:
                     # Skip it;
                     # members must be greater than the head
                     continue
                 if next not in history:
                     # recurse
-                    yield from self._find(history+[next], size)
+                    yield from _find(digraph, history+[next], size)
 
 
-    def all_iter(self, size):
-        """
-        List the cycles of the size only. No shortcuts are allowed during the search.
-        """
-        for head in self.nodes():
-            yield from self._find([head], size)
+    for head in digraph.nodes():
+        yield from _find(digraph, [head], size)
 
 
 
@@ -92,14 +81,12 @@ def test():
                 else:
                     dg.add_edge(b,a,vec=-d)
     # PBC-compliant
-    dc = DiCycles(dg, vec=True)
-    A = set([cycle for cycle in dc.all_iter(4)])
+    A = set([cycle for cycle in dicycles_iter(dg, 4, vec=True)])
     print(f"Number of cycles (PBC compliant): {len(A)}")
     print(A)
 
     # not PBC-compliant
-    dc = DiCycles(dg)
-    B = set([cycle for cycle in dc.all_iter(4)])
+    B = set([cycle for cycle in dicycles_iter(dg, 4)])
     print(f"Number of cycles (crude)        : {len(B)}")
     print(B)
 

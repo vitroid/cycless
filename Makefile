@@ -1,4 +1,4 @@
-PROJECT=cycles
+PROJECT=cycless
 all: README.md
 	echo Hello.
 test: test.py $(wildcard cycles/*.py)

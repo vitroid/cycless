@@ -2,7 +2,7 @@
 
 from cycles import dicycles, cycles, polyhed
 
-# dicycles.test()
-# cycles.test()
+dicycles.test()
+cycles.test()
 polyhed.test()
 
