@@ -34,5 +34,5 @@ setup(name='cycless',
       keywords=['cycles', 'graph'],
       license='MIT',
       packages=find_packages(),
-      install_requires=['networkx>=2', 'numpy',  'wheel'],
+      install_requires=['networkx>=2', 'numpy',  'wheel', 'methodtools'],
 )
