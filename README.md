@@ -1,6 +1,9 @@
 # cycless
 
-A collection of algorithm to analyze a graph as a set of cycles.
+A collection of algorithms to analyze a graph as a set of cycles.
+
+Some codes come from [https://github.com/vitroid/Polyhed](vitroid/Polyhed) and [https://github.com/vitroid/countrings](vitroid/countrings) are integrated and improved.
+
 
 ## References
 

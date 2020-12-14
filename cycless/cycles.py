@@ -99,6 +99,27 @@ def cycles_iter( graph, maxsize, pos=None ):
                         rings.add(j)
 
 
+# def graph_overlap(g1, g2):
+#     """
+#     Return the common part of two graphs.
+#
+#     They are adjacent if two subgraphs share at least one vertex.
+#     """
+#     # common vertices
+#     common = g1.nodes() and g2.nodes()
+#     g = nx.Graph()
+#     for v in common:
+#         g.add_node(v)
+#     if len(common) > 0:
+#         # common edges
+#         for e in g1.edges():
+#             if g2.has_edge(*e):
+#                 g.add_edge(*e)
+#     return g
+
+
+
+
 def test():
     g = nx.Graph()
     # a lattice graph of 4x4x4
@@ -131,6 +152,10 @@ def test():
     C = B - A
     print("Cycles that span the cell:")
     print(C)
+
+    # g1 = nx.Graph([(1,2),(2,3),(3,4)])
+    # g2 = nx.Graph([(1,4)])
+    # print(graph_overlap(g1,g2))
 
 
 if __name__ == "__main__":

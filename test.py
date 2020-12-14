@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-from cycles import dicycles, cycles, polyhed
+from cycless import dicycles, cycles, polyhed
 
-dicycles.test()
 cycles.test()
+dicycles.test()
 polyhed.test()
-
