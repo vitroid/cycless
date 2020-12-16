@@ -73,9 +73,12 @@ def _Edges(cycle):
     return ed
 
 
-def polyhedra_iter(_cycles, maxfragsize=20):
+def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
     """
     A generator of polyhedra (combinations of cycles)
+
+    maxnfaces: Maximum number of faces.
+    maxfragsize: same as maxnfaces (deprecated)
     """
     #Local functions
 
@@ -129,7 +132,7 @@ def polyhedra_iter(_cycles, maxfragsize=20):
     def _Progress(origin, peri, fragment, numCyclesOnTheNode):
         #Here we define a "face" as a cycle belonging to the (growing) polyhedron.
         logger.debug(f"#{peri} {fragment}")
-        if len(fragment) > maxfragsize:
+        if len(fragment) > maxnfaces:
             #logger.debug("#LIMITTER")
             return
         #if the perimeter closes,
@@ -199,6 +202,11 @@ def polyhedra_iter(_cycles, maxfragsize=20):
         return
 
     logger = getLogger()
+
+    if maxfragsize > 0:
+        logger.warn("maxfragsize is deprecated. Use maxnfaces instead.")
+        maxnfaces = maxfragsize
+        del maxnfaces
 
     _cyclesAtATriplet = defaultdict(list)
     _cyclesAtAnEdge = defaultdict(list)
