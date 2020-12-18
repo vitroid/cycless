@@ -10,8 +10,9 @@ import networkx as nx
 def centerOfMass(members, rpos):
     logger = getLogger()
     dsum = np.zeros(3)
+    origin = rpos[list(members)[0]]
     for member in members:
-        d = rpos[member] - rpos[members[0]]
+        d = rpos[member] - origin
         d -= np.floor(d+0.5)
         dsum += d
     com = rpos[members[0]] + dsum / len(members)
