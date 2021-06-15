@@ -8,13 +8,13 @@ import networkx as nx
 
 def centerOfMass(members, rpos):
     # logger = getLogger()
-    dsum = np.zeros(3)
+    dtotal = np.zeros(3)
     origin = rpos[list(members)[0]]
     for member in members:
         d = rpos[member] - origin
         d -= np.floor(d + 0.5)
-        dsum += d
-    com = rpos[members[0]] + dsum / len(members)
+        dtotal += d
+    com = rpos[members[0]] + dtotal / len(members)
     com -= np.floor(com)
     return com
 
@@ -71,12 +71,13 @@ def cycles_iter(graph, maxsize, pos=None):
 
     def _is_spanning(cycle):
         "Return True if the cycle spans the periodic cell."
-        sum = np.zeros_like(pos[cycle[0]])
-        for i in range(len(cycle)):
-            d = pos[cycle[i - 1]] - pos[cycle[i]]
+        total = np.zeros_like(pos[cycle[0]])
+        N = len(cycle)
+        for i, j in zip(cycle[-1:N-1], cycle):
+            d = pos[i] - pos[j]
             d -= np.floor(d + 0.5)
-            sum += d
-        return np.any(np.absolute(sum) > 1e-5)
+            total += d
+        return np.any(np.absolute(total) > 1e-5)
 
     logger = getLogger()
     rings = set()
