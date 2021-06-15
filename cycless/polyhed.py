@@ -15,8 +15,9 @@ def cage_to_graph(cage, ringlist):
     g = nx.Graph()
     for ring in cage:
         nodes = ringlist[ring]
-        for i in range(len(nodes)):
-            g.add_edge(nodes[i-1], nodes[i])
+        g.add_cycle(nodes)
+        # for i in range(len(nodes)):
+        #     g.add_edge(nodes[i-1], nodes[i])
     return g
 
 
@@ -126,23 +127,27 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
                         return True
                     #logger.debug(fragment,cycleid)
         return False
-    #Grow up a set of cycles by adding new cycle on the perimeter.
-    #Return the list of polyhedron.
-    #origin is the cycle ID of the first face in the polyhedron
+    # Grow up a set of cycles by adding new cycle on the perimeter.
+    # Return the list of polyhedron.
+    # origin is the cycle ID of the first face in the polyhedron
     def _Progress(origin, peri, fragment, numCyclesOnTheNode):
-        #Here we define a "face" as a cycle belonging to the (growing) polyhedron.
+        # Here we define a "face" as a cycle belonging to the (growing)
+        # polyhedron.
         logger.debug(f"#{peri} {fragment}")
         if len(fragment) > maxnfaces:
             #logger.debug("#LIMITTER")
             return
         #if the perimeter closes,
         if len(peri) == 0:
-            #If the polyhedron has internal vertices that are not a part of the polyhedron (i.e. if the polyhedron does not divide the total network into to components)
+            # If the polyhedron has internal vertices that are not a part of
+            # the polyhedron (i.e. if the polyhedron does not divide the total
+            # network into to components)
             if not _IsDivided(fragment):
-                #If the fragment does not contain any extra cycle whose all vertices belong to the fragment but the cycle is not a face,
+                # If the fragment does not contain any extra cycle whose all
+                # vertices belong to the fragment but the cycle is not a face,
                 if not _ContainsExtraCycle(fragment):
-                    #Add the fragment to the list.
-                    #A fragment is a set of cycle IDs of the faces
+                    # Add the fragment to the list.
+                    # A fragment is a set of cycle IDs of the faces
                     fs = frozenset(fragment)
                     if fs not in _vitrites:
                         yield fragment
@@ -151,20 +156,20 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
                     logger.debug("It contains extra cycles(s).")
             else:
                 logger.debug("It has internal vertices.")
-            #Search finished.
+            # Search finished.
             return
-        #If the perimeter is still open,
+        # If the perimeter is still open,
         for i in range(len(peri)):
-            #If any vertex on the perimeter is shared by more than two faces,
+            # If any vertex on the perimeter is shared by more than two faces,
             if numCyclesOnTheNode[peri[i]] > 2:
                 logger.debug("#Failed(2)")
                 return
         for i in range(len(peri)):
-            #Look up the node on the perimeter which is shared by two faces.
+            # Look up the node on the perimeter which is shared by two faces.
             if numCyclesOnTheNode[peri[i]] == 2:
-                #Reset the frag
+                # Reset the frag
                 trynext = False
-                #Three successive nodes around the node i
+                # Three successive nodes around the node i
                 center = peri[i]
                 left   = peri[i-1]
                 right  = peri[i+1-len(peri)] #Avoid to refer the out-of-list element

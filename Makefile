@@ -22,6 +22,8 @@ deploy: build
 	twine upload dist/*
 check:
 	./setup.py check
+pep8:
+	autopep8 -r -a -a -i .
 clean:
 	-rm -rf build dist
 distclean:

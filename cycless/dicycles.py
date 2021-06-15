@@ -24,27 +24,27 @@ def dicycles_iter(digraph, size, vec=False):
         head = history[0]
         last = history[-1]
         if len(history) == size:
-            for next in digraph.successors(last):
-                if next == head:
+            for succ in digraph.successors(last):
+                if succ == head:
                     # test the dipole moment of a cycle.
-                    d = np.zeros(3)
                     if vec:
+                        d = 0.0
                         for i in range(len(history)):
                             a,b = history[i-1], history[i]
-                            d += digraph[a][b]["vec"]
-                        if np.allclose(d, np.zeros(3)):
+                            d = d+digraph[a][b]["vec"]
+                        if np.allclose(d, np.zeros_like(d)):
                             yield tuple(history)
                     else:
                         yield tuple(history)
         else:
-            for next in digraph.successors(last):
-                if next < head:
+            for succ in digraph.successors(last):
+                if succ < head:
                     # Skip it;
                     # members must be greater than the head
                     continue
-                if next not in history:
+                if succ not in history:
                     # recurse
-                    yield from _find(digraph, history+[next], size)
+                    yield from _find(digraph, history+[succ], size)
 
 
     for head in digraph.nodes():

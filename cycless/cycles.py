@@ -8,7 +8,7 @@ import networkx as nx
 
 
 def centerOfMass(members, rpos):
-    logger = getLogger()
+    # logger = getLogger()
     dsum = np.zeros(3)
     origin = rpos[list(members)[0]]
     for member in members:
@@ -44,10 +44,10 @@ def cycles_iter( graph, maxsize, pos=None ):
         return False
 
 
-    def _findring( graph, members, max ):
-        #print members, "MAX:", max
-        if len(members) > max:
-            return (max, [])
+    def _findring( graph, members, maxsize ):
+        #print members, "maxsize:", maxsize
+        if len(members) > maxsize:
+            return (maxsize, [])
         s = set(members)
         last = members[-1]
         results = []
@@ -62,16 +62,16 @@ def cycles_iter( graph, maxsize, pos=None ):
                     #Shortcut ring
                     pass
             else:
-                (newmax,newres) = _findring( graph, members + [adj], max )
-                if newmax < max:
-                    max = newmax
+                (newmax,newres) = _findring( graph, members + [adj], maxsize )
+                if newmax < maxsize:
+                    maxsize = newmax
                     results = newres
-                elif newmax == max:
+                elif newmax == maxsize:
                     results += newres
-        return (max, results)
+        return (maxsize, results)
 
 
-    def _is_spanning(graph, cycle):
+    def _is_spanning(cycle):
         "Return True if the cycle spans the periodic cell."
         sum = np.zeros_like(pos[cycle[0]])
         for i in range(len(cycle)):
@@ -88,14 +88,14 @@ def cycles_iter( graph, maxsize, pos=None ):
         neis = sorted(graph[x])
         for y,z in itertools.combinations(neis, 2):
             triplet = [y,x,z]
-            (max, results) = _findring( graph, triplet, maxsize )
+            (_max, results) = _findring( graph, triplet, maxsize )
             for i in results:
                 #Make i immutable for the key.
                 j = frozenset(i)
                 #and original list as the value.
                 if j not in rings:
                     # logger.debug("({0}) {1}".format(len(i),i))
-                    if pos is None or not _is_spanning(graph, i):
+                    if pos is None or not _is_spanning(i):
                         yield tuple(i)
                         rings.add(j)
 
