@@ -5,13 +5,13 @@ import networkx as nx
 
 # for a directed graph
 
+
 def dicycles_iter(digraph, size, vec=False):
     """
     List the cycles of the size only. No shortcuts are allowed during the search.
 
     If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.
     """
-
 
     def _find(digraph, history, size):
         """
@@ -30,8 +30,8 @@ def dicycles_iter(digraph, size, vec=False):
                     if vec:
                         d = 0.0
                         for i in range(len(history)):
-                            a,b = history[i-1], history[i]
-                            d = d+digraph[a][b]["vec"]
+                            a, b = history[i - 1], history[i]
+                            d = d + digraph[a][b]["vec"]
                         if np.allclose(d, np.zeros_like(d)):
                             yield tuple(history)
                     else:
@@ -44,16 +44,10 @@ def dicycles_iter(digraph, size, vec=False):
                     continue
                 if succ not in history:
                     # recurse
-                    yield from _find(digraph, history+[succ], size)
-
+                    yield from _find(digraph, history + [succ], size)
 
     for head in digraph.nodes():
         yield from _find(digraph, [head], size)
-
-
-
-
-
 
 
 def test():
@@ -61,25 +55,25 @@ def test():
     random.seed(1)
     dg = nx.DiGraph()
     # a lattice graph of 4x4x4
-    X,Y,Z = np.meshgrid(np.arange(4.0), np.arange(4.0), np.arange(4.0))
+    X, Y, Z = np.meshgrid(np.arange(4.0), np.arange(4.0), np.arange(4.0))
     X = X.reshape(64)
     Y = Y.reshape(64)
     Z = Z.reshape(64)
-    coord = np.array([X,Y,Z]).T
+    coord = np.array([X, Y, Z]).T
     # fractional coordinate
     coord /= 4
     for a in range(64):
         for b in range(a):
             d = coord[b] - coord[a]
             # periodic boundary condition
-            d -= np.floor(d+0.5)
+            d -= np.floor(d + 0.5)
             # if adjacent
             if d @ d < 0.3**2:
                 # orient randomly
-                if random.randint(0,1) == 0:
-                    dg.add_edge(a,b,vec=d)
+                if random.randint(0, 1) == 0:
+                    dg.add_edge(a, b, vec=d)
                 else:
-                    dg.add_edge(b,a,vec=-d)
+                    dg.add_edge(b, a, vec=-d)
     # PBC-compliant
     A = set([cycle for cycle in dicycles_iter(dg, 4, vec=True)])
     print(f"Number of cycles (PBC compliant): {len(A)}")
