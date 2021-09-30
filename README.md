@@ -12,7 +12,7 @@ A simple algorithm to enumerate all irreducible cycles of n-members and smaller 
 
 An algorithm to enumerate the irreducible cycles of a size in a dircted graph. [Matsumoto 2021]
 
-## polhed.py
+## polyhed.py
 
 An algorithm to enumerate the quasi-polyhedral hull made of cycles in an undirected graph. A quasi-polyhedral hull (vitrite) obeys the following conditions: [Matsumoto 2007]
 
