@@ -24,4 +24,4 @@ An algorithm to enumerate the quasi-polyhedral hull made of cycles in an undirec
 ## References
 
 1. M. Matsumoto, A. Baba, and I. Ohmine, Topological building blocks of hydrogen bond network in water, J. Chem. Phys. 127, 134504 (2007). http://doi.org/10.1063/1.2772627
-2. Masakazu Matsumoto, Takuma Yagasaki, Hideki Tanaka et al. Hyperhomogeneity of hydrogen-disordered ice and its origin: the residual entropy compatible with the disparity in hydrogen bond energy, 22 January 2021, PREPRINT (Version 1) available at Research Square [https://doi.org/10.21203/rs.3.rs-143208/v1]
+2. Matsumoto, M., Yagasaki, T. & Tanaka, H. On the anomalous homogeneity of hydrogen-disordered ice and its origin. J. Chem. Phys. 155, 164502 (2021). https://doi.org/10.1063/5.0065215
