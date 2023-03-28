@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+[dev-packages]
+mdanalysis = "*"
+pairlist = "*"
+networkx = "*"
+py3dmol = "*"
+cycless = "*"
+twine = "*"
+
+[requires]
+python_version = "3.11"

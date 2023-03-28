@@ -81,12 +81,13 @@ def _Edges(cycle):
     return ed
 
 
-def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
+def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
     """
     A generator of polyhedra (combinations of cycles)
 
     maxnfaces: Maximum number of faces.
     maxfragsize: same as maxnfaces (deprecated)
+    quick: uses quick algorithm. Usually, the algorithm to guarantee that the matched fragments do not contain irrelevant nodes inside is very computationally expensive. However, when the size of the polyhedron to be detected is small, a fast algorithm can be substituted.
     """
     # Local functions
 
@@ -102,7 +103,9 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
             ed = tuple(reversed(edge))
             _cyclesAtAnEdge[ed].append(cycleid)
 
-    def _IsDivided(fragment):
+    def _IsDivided(fragment, quick=False):
+        if quick:
+            return _IsDivided2(fragment)
         nodes = set()
         for cycle in fragment:
             nodes |= set(_cycles[cycle])
@@ -118,6 +121,32 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
                 nx.number_connected_components(G2),
                 _ncompo))
         return nx.number_connected_components(G2) > _ncompo
+
+    def _IsDivided2(fragment):
+        """fragmentに隣接する頂点で、その隣接点が全部fragmentの頂点であるようなものがあれば、そいつは孤立している。
+        ただし、この考え方では、内部頂点が2つ以上あるような大フラグメントは見落す。
+        """
+        # fragmentに属する全ノード
+        nodes = set()
+        for cycle in fragment:
+            nodes |= set(_cycles[cycle])
+        # fragmentに隣接する全ノードを抽出する
+        adj = set()
+        for node in nodes:
+            for nei in _G[node]:
+                if nei not in nodes:
+                    adj.add(nei)
+        # 隣接ノードの隣接が全部フラグメントに含まれているなら、そいつは孤立している
+        for node in adj:
+            linked=False
+            for nei in _G[node]:
+                if nei not in nodes:
+                    linked=True
+                    break
+            if not linked:
+                # logger.info("Isolated node")
+                return True
+        return False
 
     # Return True if the given fragment contains cycles that are not the
     # member of the fragment.
@@ -151,23 +180,23 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0):
             return
         # if the perimeter closes,
         if len(peri) == 0:
-            # If the polyhedron has internal vertices that are not a part of
-            # the polyhedron (i.e. if the polyhedron does not divide the total
-            # network into to components)
-            if not _IsDivided(fragment):
+            if _ContainsExtraCycle(fragment):
                 # If the fragment does not contain any extra cycle whose all
                 # vertices belong to the fragment but the cycle is not a face,
-                if not _ContainsExtraCycle(fragment):
+                logger.debug("It contains extra cycles(s).")
+            else:
+                # If the polyhedron has internal vertices that are not a part of
+                # the polyhedron (i.e. if the polyhedron does not divide the total
+                # network into to components)
+                if _IsDivided(fragment, quick):
+                    logger.info("It has internal vertices.")
+                else:
                     # Add the fragment to the list.
                     # A fragment is a set of cycle IDs of the faces
                     fs = frozenset(fragment)
                     if fs not in _vitrites:
                         yield fragment
                         _vitrites.add(fs)
-                else:
-                    logger.debug("It contains extra cycles(s).")
-            else:
-                logger.debug("It has internal vertices.")
             # Search finished.
             return
         # If the perimeter is still open,

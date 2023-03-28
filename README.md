@@ -21,6 +21,10 @@ An algorithm to enumerate the quasi-polyhedral hull made of cycles in an undirec
 3. Two cycles shares an edge of the hull.
 4. Its Euler index (F-E+V) is two.
 
+## simplex.py
+
+Enumerate triangle, tetrahedral, and octahedral subgraphs found in the given graph.
+
 ## References
 
 1. M. Matsumoto, A. Baba, and I. Ohmine, Topological building blocks of hydrogen bond network in water, J. Chem. Phys. 127, 134504 (2007). http://doi.org/10.1063/1.2772627
