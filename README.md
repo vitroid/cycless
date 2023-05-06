@@ -20,7 +20,7 @@ for cycle in cy.cycles_iter(g, maxsize=6):
 
 ## dicycles.py
 
-An algorithm to enumerate the irreducible cycles of a size in a dircted graph. [Matsumoto 2021]
+An algorithm to enumerate the directed cycles of a size in a dircted graph. [Matsumoto 2021]
 
 ```python
 from genice2.genice import GenIce
