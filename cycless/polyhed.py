@@ -3,9 +3,10 @@
 # Simplified from github/Vitrite
 
 import sys
-import networkx as nx
-from logging import getLogger
 from collections import defaultdict
+from logging import getLogger
+
+import networkx as nx
 import numpy as np
 
 from cycless.cycles import cycles_iter
@@ -16,7 +17,7 @@ def cage_to_graph(cage, ringlist):
     g = nx.Graph()
     for ring in cage:
         nodes = ringlist[ring]
-        g.add_cycle(nodes)
+        nx.add_cycle(g, nodes)
         # for i in range(len(nodes)):
         #     g.add_edge(nodes[i-1], nodes[i])
     return g
