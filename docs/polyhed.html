@@ -111,20 +111,17 @@ def _Edges(cycle):
 
 def polyhedra_iter(
     _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
-) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;_summary_
+) -&gt; list:
+    &#34;&#34;&#34;Quasi-polyhedra made of given cycles. A quasi-polyhedron is a polyhedron-like graph.
 
     Args:
-        _cycles (list): _description_
-        maxnfaces (int, optional): _description_. Defaults to 20.
-        maxfragsize (int, optional): _description_. Defaults to 0.
-        quick (bool, optional): _description_. Defaults to False.
+        _cycles (list): List of cycles, typically made by cycless.cycles()
+        maxnfaces (int, optional): maximum number of faces at a polyhedron. Defaults to 20.
+        maxfragsize (int, optional): maximum number of nodes in a polyhedron. Defaults to 0 (not specified).
+        quick (bool, optional): Avoid some tests for faster run.  Defaults to False.
 
     Returns:
-        _type_: _description_
-
-    Yields:
-        Generator[tuple, None, None]: _description_
+        list: list of lists of cycle labels.
     &#34;&#34;&#34;
 
     # Local functions
@@ -402,30 +399,26 @@ if __name__ == &#34;__main__&#34;:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="cycless.polyhed.polyhedra_iter"><code class="name flex">
-<span>def <span class="ident">polyhedra_iter</span></span>(<span>_cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False) ‑> Generator[tuple, None, None]</span>
+<span>def <span class="ident">polyhedra_iter</span></span>(<span>_cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False) ‑> list</span>
 </code></dt>
 <dd>
-<div class="desc"><p><em>summary</em></p>
+<div class="desc"><p>Quasi-polyhedra made of given cycles. A quasi-polyhedron is a polyhedron-like graph.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>_cycles</code></strong> :&ensp;<code>list</code></dt>
-<dd><em>description</em></dd>
+<dd>List of cycles, typically made by cycless.cycles()</dd>
 <dt><strong><code>maxnfaces</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd><em>description</em>. Defaults to 20.</dd>
+<dd>maximum number of faces at a polyhedron. Defaults to 20.</dd>
 <dt><strong><code>maxfragsize</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd><em>description</em>. Defaults to 0.</dd>
+<dd>maximum number of nodes in a polyhedron. Defaults to 0 (not specified).</dd>
 <dt><strong><code>quick</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd><em>description</em>. Defaults to False.</dd>
+<dd>Avoid some tests for faster run.
+Defaults to False.</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>_type_</code></dt>
-<dd><em>description</em></dd>
-</dl>
-<h2 id="yields">Yields</h2>
-<dl>
-<dt><code>Generator[tuple, None, None]</code></dt>
-<dd><em>description</em></dd>
+<dt><code>list</code></dt>
+<dd>list of lists of cycle labels.</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -433,20 +426,17 @@ if __name__ == &#34;__main__&#34;:
 </summary>
 <pre><code class="python">def polyhedra_iter(
     _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
-) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;_summary_
+) -&gt; list:
+    &#34;&#34;&#34;Quasi-polyhedra made of given cycles. A quasi-polyhedron is a polyhedron-like graph.
 
     Args:
-        _cycles (list): _description_
-        maxnfaces (int, optional): _description_. Defaults to 20.
-        maxfragsize (int, optional): _description_. Defaults to 0.
-        quick (bool, optional): _description_. Defaults to False.
+        _cycles (list): List of cycles, typically made by cycless.cycles()
+        maxnfaces (int, optional): maximum number of faces at a polyhedron. Defaults to 20.
+        maxfragsize (int, optional): maximum number of nodes in a polyhedron. Defaults to 0 (not specified).
+        quick (bool, optional): Avoid some tests for faster run.  Defaults to False.
 
     Returns:
-        _type_: _description_
-
-    Yields:
-        Generator[tuple, None, None]: _description_
+        list: list of lists of cycle labels.
     &#34;&#34;&#34;
 
     # Local functions

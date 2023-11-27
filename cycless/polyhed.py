@@ -83,20 +83,17 @@ def _Edges(cycle):
 
 def polyhedra_iter(
     _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
-) -> Generator[tuple, None, None]:
-    """_summary_
+) -> list:
+    """Quasi-polyhedra made of given cycles. A quasi-polyhedron is a polyhedron-like graph.
 
     Args:
-        _cycles (list): _description_
-        maxnfaces (int, optional): _description_. Defaults to 20.
-        maxfragsize (int, optional): _description_. Defaults to 0.
-        quick (bool, optional): _description_. Defaults to False.
+        _cycles (list): List of cycles, typically made by cycless.cycles()
+        maxnfaces (int, optional): maximum number of faces at a polyhedron. Defaults to 20.
+        maxfragsize (int, optional): maximum number of nodes in a polyhedron. Defaults to 0 (not specified).
+        quick (bool, optional): Avoid some tests for faster run.  Defaults to False.
 
     Returns:
-        _type_: _description_
-
-    Yields:
-        Generator[tuple, None, None]: _description_
+        list: list of lists of cycle labels.
     """
 
     # Local functions

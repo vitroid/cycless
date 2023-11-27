@@ -42,10 +42,15 @@ __all__ = [&#34;dicycles_iter&#34;]
 def dicycles_iter(
     digraph: nx.DiGraph, size: int, vec: bool = False
 ) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;
-    List the cycles of the size only. No shortcuts are allowed during the search.
+    &#34;&#34;&#34;Homodromic cycles in a given digraph.
 
-    If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.
+    Args:
+        digraph (nx.DiGraph): the digraph.
+        size (int): size of a cycle. (only one size)
+        vec (bool, optional): If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.
+
+    Yields:
+        Generator[tuple, None, None]: List of lists of node labels.
     &#34;&#34;&#34;
 
     def _find(digraph, history, size):
@@ -141,8 +146,21 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">dicycles_iter</span></span>(<span>digraph: networkx.classes.digraph.DiGraph, size: int, vec: bool = False) ‑> Generator[tuple, None, None]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>List the cycles of the size only. No shortcuts are allowed during the search.</p>
-<p>If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.</p></div>
+<div class="desc"><p>Homodromic cycles in a given digraph.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>digraph</code></strong> :&ensp;<code>nx.DiGraph</code></dt>
+<dd>the digraph.</dd>
+<dt><strong><code>size</code></strong> :&ensp;<code>int</code></dt>
+<dd>size of a cycle. (only one size)</dd>
+<dt><strong><code>vec</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.</dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Generator[tuple, None, None]</code></dt>
+<dd>List of lists of node labels.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -150,10 +168,15 @@ if __name__ == &#34;__main__&#34;:
 <pre><code class="python">def dicycles_iter(
     digraph: nx.DiGraph, size: int, vec: bool = False
 ) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;
-    List the cycles of the size only. No shortcuts are allowed during the search.
+    &#34;&#34;&#34;Homodromic cycles in a given digraph.
 
-    If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.
+    Args:
+        digraph (nx.DiGraph): the digraph.
+        size (int): size of a cycle. (only one size)
+        vec (bool, optional): If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.
+
+    Yields:
+        Generator[tuple, None, None]: List of lists of node labels.
     &#34;&#34;&#34;
 
     def _find(digraph, history, size):

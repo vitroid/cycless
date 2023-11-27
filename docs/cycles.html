@@ -55,10 +55,15 @@ def centerOfMass(members, rpos):
 def cycles_iter(
     graph: nx.Graph, maxsize: int, pos: np.ndarray = None
 ) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;
-    A generator of cycles in a graph.
-    The graph must not be directed.
-    Specify the positions of the vertices in a orthogonal cell in the fractional coordinate if you want to avoid the spanning cycles.
+    &#34;&#34;&#34;A generator of cycles in a graph.
+
+    Args:
+        graph (nx.Graph): An undirected graph
+        maxsize (int): maximal size of a cycle
+        pos (np.ndarray, optional): fractional coordinates of the nodes. Defaults to None.
+
+    Yields:
+        Generator[tuple, None, None]: list of lists of node labels.
     &#34;&#34;&#34;
 
     # shortes_pathlen is a stateless function, so the cache is useful to avoid
@@ -202,9 +207,21 @@ if __name__ == &#34;__main__&#34;:
 <span>def <span class="ident">cycles_iter</span></span>(<span>graph: networkx.classes.graph.Graph, maxsize: int, pos: numpy.ndarray = None) ‑> Generator[tuple, None, None]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A generator of cycles in a graph.
-The graph must not be directed.
-Specify the positions of the vertices in a orthogonal cell in the fractional coordinate if you want to avoid the spanning cycles.</p></div>
+<div class="desc"><p>A generator of cycles in a graph.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>graph</code></strong> :&ensp;<code>nx.Graph</code></dt>
+<dd>An undirected graph</dd>
+<dt><strong><code>maxsize</code></strong> :&ensp;<code>int</code></dt>
+<dd>maximal size of a cycle</dd>
+<dt><strong><code>pos</code></strong> :&ensp;<code>np.ndarray</code>, optional</dt>
+<dd>fractional coordinates of the nodes. Defaults to None.</dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Generator[tuple, None, None]</code></dt>
+<dd>list of lists of node labels.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -212,10 +229,15 @@ Specify the positions of the vertices in a orthogonal cell in the fractional coo
 <pre><code class="python">def cycles_iter(
     graph: nx.Graph, maxsize: int, pos: np.ndarray = None
 ) -&gt; Generator[tuple, None, None]:
-    &#34;&#34;&#34;
-    A generator of cycles in a graph.
-    The graph must not be directed.
-    Specify the positions of the vertices in a orthogonal cell in the fractional coordinate if you want to avoid the spanning cycles.
+    &#34;&#34;&#34;A generator of cycles in a graph.
+
+    Args:
+        graph (nx.Graph): An undirected graph
+        maxsize (int): maximal size of a cycle
+        pos (np.ndarray, optional): fractional coordinates of the nodes. Defaults to None.
+
+    Yields:
+        Generator[tuple, None, None]: list of lists of node labels.
     &#34;&#34;&#34;
 
     # shortes_pathlen is a stateless function, so the cache is useful to avoid

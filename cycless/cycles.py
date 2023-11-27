@@ -27,10 +27,15 @@ def centerOfMass(members, rpos):
 def cycles_iter(
     graph: nx.Graph, maxsize: int, pos: np.ndarray = None
 ) -> Generator[tuple, None, None]:
-    """
-    A generator of cycles in a graph.
-    The graph must not be directed.
-    Specify the positions of the vertices in a orthogonal cell in the fractional coordinate if you want to avoid the spanning cycles.
+    """A generator of cycles in a graph.
+
+    Args:
+        graph (nx.Graph): An undirected graph
+        maxsize (int): maximal size of a cycle
+        pos (np.ndarray, optional): fractional coordinates of the nodes. Defaults to None.
+
+    Yields:
+        Generator[tuple, None, None]: list of lists of node labels.
     """
 
     # shortes_pathlen is a stateless function, so the cache is useful to avoid

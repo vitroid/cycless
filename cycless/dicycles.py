@@ -14,10 +14,15 @@ __all__ = ["dicycles_iter"]
 def dicycles_iter(
     digraph: nx.DiGraph, size: int, vec: bool = False
 ) -> Generator[tuple, None, None]:
-    """
-    List the cycles of the size only. No shortcuts are allowed during the search.
+    """Homodromic cycles in a given digraph.
 
-    If vec is True and the orientations of the vectors is included in the attributes of the edges, the spanning cycles are avoided.
+    Args:
+        digraph (nx.DiGraph): the digraph.
+        size (int): size of a cycle. (only one size)
+        vec (bool, optional): If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.
+
+    Yields:
+        Generator[tuple, None, None]: List of lists of node labels.
     """
 
     def _find(digraph, history, size):
