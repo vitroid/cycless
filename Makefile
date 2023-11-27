@@ -3,6 +3,23 @@ all: README.md
 	echo Hello.
 test: test.py $(wildcard cycles/*.py)
 	python test.py
+FAU.gro:
+	genice2 FAU > FAU.gro
+
+
+%: temp_% replacer.py pyproject.toml
+	python replacer.py < $< > $@
+
+doc: README.md CITATION.cff 
+	pdoc3 --html -o docs-tmp --force cycless
+	-rm -rf docs
+	mv docs-tmp/cycless docs
+
+
+
+
+
+
 test-deploy: build
 	twine upload -r pypitest dist/*
 test-install:
