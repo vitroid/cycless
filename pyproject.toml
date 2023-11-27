@@ -1,0 +1,6 @@
+[project]
+
+[project.urls]
+"Homepage" = "https://github.com/vitroid/cycless"
+"Bug Tracker" = "https://github.com/vitroid/cycless/issues"
+"manual" = "https://vitroid.github.io/cycless"

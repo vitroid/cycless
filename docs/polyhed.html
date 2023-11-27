@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>cycless.polyhed API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>cycless.polyhed</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#!/usr/bin/env python3
+#
+# Simplified from github/Vitrite
+
+import sys
+from collections import defaultdict
+from logging import getLogger
+from typing import Generator
+
+import networkx as nx
+import numpy as np
+
+from cycless.cycles import cycles_iter
+
+# for pDoc3
+__all__ = [&#34;polyhedra_iter&#34;]
+
+
+def cage_to_graph(cage, ringlist):
+    &#34;Convert a cage as a set of cycles to a graph.&#34;
+    g = nx.Graph()
+    for ring in cage:
+        nodes = ringlist[ring]
+        nx.add_cycle(g, nodes)
+        # for i in range(len(nodes)):
+        #     g.add_edge(nodes[i-1], nodes[i])
+    return g
+
+
+def _reorder(cycle, first, second):
+    &#34;Reorder the cycle noders so as to start from the first node.&#34;
+    s = cycle.index(first)
+    if cycle[s - 1] == second:
+        r = [cycle[i] for i in range(s, s - len(cycle), -1)]
+    else:
+        r = [cycle[i] for i in range(s - len(cycle), s)]
+    return r
+
+
+def _MergeCycles(cycle1, cycle2, first, second):
+    &#34;get two lists of nodes (cycles) and make a large cycle.&#34;
+    logger = getLogger()
+    r1 = _reorder(cycle1, first, second)
+    r2 = _reorder(cycle2, first, second)
+    logger.debug(&#34;#{0}+{1}&#34;.format(r1, r2))
+    # zipper motion
+    head = 0
+    while r1[head - 1] == r2[head - 1]:
+        head -= 1
+        if head == -len(r1):
+            return []
+    tail = 1
+    while r1[tail + 1 - len(r1)] == r2[tail + 1 - len(r2)]:
+        tail += 1
+    # unshared nodes of the cycles
+    rest1 = set(r1) - set([r1[i] for i in range(head, tail + 1)])
+    rest2 = set(r2) - set([r2[i] for i in range(head, tail + 1)])
+    # if the remaining parts of the cycle have common nodes,
+    if len(rest1 &amp; rest2) != 0:
+        # not a simple cycle
+        return None
+    cycle = [r1[i] for i in range(tail - len(r1), head)]
+    cycle += [r2[i] for i in range(head, tail - len(r2), -1)]
+    logger.debug(
+        &#34;#{0} {1} {2} {3} {4}&#34;.format(head, tail, cycle, rest1, rest2, rest1 &amp; rest2)
+    )
+    return cycle
+
+
+def _Triplets(cycle):
+    tri = []
+    for i in range(len(cycle)):
+        tri.append((cycle[i - 2], cycle[i - 1], cycle[i]))
+    return tri
+
+
+def _Edges(cycle):
+    ed = []
+    for i in range(len(cycle)):
+        ed.append((cycle[i - 1], cycle[i]))
+    return ed
+
+
+def polyhedra_iter(
+    _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
+) -&gt; Generator[tuple, None, None]:
+    &#34;&#34;&#34;_summary_
+
+    Args:
+        _cycles (list): _description_
+        maxnfaces (int, optional): _description_. Defaults to 20.
+        maxfragsize (int, optional): _description_. Defaults to 0.
+        quick (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        _type_: _description_
+
+    Yields:
+        Generator[tuple, None, None]: _description_
+    &#34;&#34;&#34;
+
+    # Local functions
+
+    def _RegisterTriplets(cycle, cycleid):
+        for triplet in _Triplets(cycle):
+            _cyclesAtATriplet[triplet].append(cycleid)
+            tr = tuple(reversed(triplet))
+            _cyclesAtATriplet[tr].append(cycleid)
+
+    def _RegisterEdges(cycle, cycleid):
+        for edge in _Edges(cycle):
+            _cyclesAtAnEdge[edge].append(cycleid)
+            ed = tuple(reversed(edge))
+            _cyclesAtAnEdge[ed].append(cycleid)
+
+    def _IsDivided(fragment, quick=False):
+        if quick:
+            return _IsDivided2(fragment)
+        nodes = set()
+        for cycle in fragment:
+            nodes |= set(_cycles[cycle])
+        G2 = _G.copy()
+        ebunch = []
+        for i in nodes:
+            for j in _G.neighbors(i):
+                ebunch.append((i, j))
+        # G2.remove_edges_from(ebunch)
+        G2.remove_nodes_from(nodes)
+        logger.debug(
+            &#34;NCOMPO: {0} {1}&#34;.format(nx.number_connected_components(G2), _ncompo)
+        )
+        return nx.number_connected_components(G2) &gt; _ncompo
+
+    def _IsDivided2(fragment):
+        &#34;&#34;&#34;fragmentに隣接する頂点で、その隣接点が全部fragmentの頂点であるようなものがあれば、そいつは孤立している。
+        ただし、この考え方では、内部頂点が2つ以上あるような大フラグメントは見落す。
+        &#34;&#34;&#34;
+        # fragmentに属する全ノード
+        nodes = set()
+        for cycle in fragment:
+            nodes |= set(_cycles[cycle])
+        # fragmentに隣接する全ノードを抽出する
+        adj = set()
+        for node in nodes:
+            for nei in _G[node]:
+                if nei not in nodes:
+                    adj.add(nei)
+        # 隣接ノードの隣接が全部フラグメントに含まれているなら、そいつは孤立している
+        for node in adj:
+            linked = False
+            for nei in _G[node]:
+                if nei not in nodes:
+                    linked = True
+                    break
+            if not linked:
+                # logger.info(&#34;Isolated node&#34;)
+                return True
+        return False
+
+    # Return True if the given fragment contains cycles that are not the
+    # member of the fragment.
+    def _ContainsExtraCycle(fragment):
+        tris = set()
+        allnodes = set()
+        # A fragment is a set of cycle IDs.
+        for cycleid in fragment:
+            nodes = _cycles[cycleid]
+            allnodes |= set(nodes)
+            tris |= set(_Triplets(nodes))
+        for tri in tris:
+            for cycleid in _cyclesAtATriplet[tri]:
+                if cycleid not in fragment:
+                    # if all the nodes of a cycle is included in the fragment,
+                    nodes = _cycles[cycleid]
+                    if len(set(nodes) - allnodes) == 0:
+                        return True
+                    # logger.debug(fragment,cycleid)
+        return False
+
+    # Grow up a set of cycles by adding new cycle on the perimeter.
+    # Return the list of polyhedron.
+    # origin is the cycle ID of the first face in the polyhedron
+
+    def _Progress(origin, peri, fragment, numCyclesOnTheNode):
+        # Here we define a &#34;face&#34; as a cycle belonging to the (growing)
+        # polyhedron.
+        logger.debug(f&#34;#{peri} {fragment}&#34;)
+        if len(fragment) &gt; maxnfaces:
+            # logger.debug(&#34;#LIMITTER&#34;)
+            return
+        # if the perimeter closes,
+        if len(peri) == 0:
+            if _ContainsExtraCycle(fragment):
+                # If the fragment does not contain any extra cycle whose all
+                # vertices belong to the fragment but the cycle is not a face,
+                logger.debug(&#34;It contains extra cycles(s).&#34;)
+            else:
+                # If the polyhedron has internal vertices that are not a part of
+                # the polyhedron (i.e. if the polyhedron does not divide the total
+                # network into to components)
+                if _IsDivided(fragment, quick):
+                    logger.info(&#34;It has internal vertices.&#34;)
+                else:
+                    # Add the fragment to the list.
+                    # A fragment is a set of cycle IDs of the faces
+                    fs = frozenset(fragment)
+                    if fs not in _vitrites:
+                        yield fragment
+                        _vitrites.add(fs)
+            # Search finished.
+            return
+        # If the perimeter is still open,
+        for i in range(len(peri)):
+            # If any vertex on the perimeter is shared by more than two faces,
+            if numCyclesOnTheNode[peri[i]] &gt; 2:
+                logger.debug(&#34;#Failed(2)&#34;)
+                return
+        for i in range(len(peri)):
+            # Look up the node on the perimeter which is shared by two faces.
+            if numCyclesOnTheNode[peri[i]] == 2:
+                # Reset the frag
+                trynext = False
+                # Three successive nodes around the node i
+                center = peri[i]
+                left = peri[i - 1]
+                # Avoid to refer the out-of-list element
+                right = peri[i + 1 - len(peri)]
+                # Reset the frag
+                success = False
+                logger.debug(f&#34;Next triplet:{left} {center} {right}&#34;)
+                if (left, center, right) in _cyclesAtATriplet:
+                    logger.debug(
+                        &#34;Here cycles are:{0}&#34;.format(
+                            _cyclesAtATriplet[(left, center, right)]
+                        )
+                    )
+                    for cycleid in _cyclesAtATriplet[(left, center, right)]:
+                        logger.debug(f&#34;#Next:{cycleid}&#34;)
+                        # if the cycle is new and its ID is larger than the
+                        # origin,
+                        if origin &lt; cycleid and cycleid not in fragment:
+                            nodes = _cycles[cycleid]
+                            # Add the cycle as a face and extend the perimeter
+                            newperi = _MergeCycles(peri, nodes, center, right)
+                            logger.debug(f&#34;#Result:{newperi}&#34;)
+                            # result is not a simple cycle
+                            if newperi is None:
+                                trynext = True
+                                logger.debug(&#34;#Try next!&#34;)
+                            else:
+                                for node in nodes:
+                                    numCyclesOnTheNode[node] += 1
+                                    mult = [numCyclesOnTheNode[i] for i in newperi]
+                                    logger.debug(
+                                        f&#34;#{peri} {nodes} {edge} {newperi} {mult}&#34;
+                                    )
+                                yield from _Progress(
+                                    origin,
+                                    newperi,
+                                    fragment
+                                    | set(
+                                        [
+                                            cycleid,
+                                        ]
+                                    ),
+                                    numCyclesOnTheNode,
+                                )
+                                for node in nodes:
+                                    numCyclesOnTheNode[node] -= 1
+                                # if result == True:
+                                #    return True
+                # it might be too aggressive
+                if not trynext:
+                    break
+        logger.debug(f&#34;#Failed to expand perimeter {peri} {fragment}&#34;)
+        return
+
+    logger = getLogger()
+
+    if maxfragsize &gt; 0:
+        logger.warn(&#34;maxfragsize is deprecated. Use maxnfaces instead.&#34;)
+        maxnfaces = maxfragsize
+        del maxnfaces
+
+    _cyclesAtATriplet = defaultdict(list)
+    _cyclesAtAnEdge = defaultdict(list)
+
+    for cycleid, cycle in enumerate(_cycles):
+        _RegisterTriplets(cycle, cycleid)
+        _RegisterEdges(cycle, cycleid)
+    # For counting the number of components separated by a polyhedral fragment
+    _G = nx.Graph()
+
+    for cycle in _cycles:
+        nx.add_cycle(_G, cycle)
+    _ncompo = nx.number_connected_components(_G)
+
+    _vitrites = set()
+    # The first cycle
+    for cycleid in range(len(_cycles)):
+        peri = _cycles[cycleid]
+        fragment = set([cycleid])
+        edge = tuple(peri[0:2])
+        numCyclesOnTheNode = defaultdict(int)
+        # increment the number-of-cycles-at-a-node counter
+        # for each node on the first cycle.
+        for node in peri:
+            numCyclesOnTheNode[node] = 1
+            logger.debug(&#34;#Candid: {0} {1}&#34;.format(cycleid, _cyclesAtAnEdge[edge]))
+        # The second cycle, which is adjacent to the first one.
+        for cycleid2 in _cyclesAtAnEdge[edge]:
+            # The second one must have larger cycle ID than the first one.
+            if cycleid &lt; cycleid2:
+                nodes = _cycles[cycleid2]
+                # Make the perimeter of two cycles.
+                newperi = _MergeCycles(peri, nodes, edge[0], edge[1])
+                if newperi is not None:
+                    # increment the number-of-cycles-at-a-node counter
+                    # for each node on the second cycle.
+                    for node in nodes:
+                        numCyclesOnTheNode[node] += 1
+                        mult = [numCyclesOnTheNode[i] for i in newperi]
+                        logger.debug(
+                            &#34;{0} {1} {2} {3} {4}&#34;.format(
+                                peri, nodes, edge, newperi, mult
+                            )
+                        )
+                    # Expand the perimeter by adding new faces to the
+                    # polyhedron.
+                    yield from _Progress(
+                        cycleid, newperi, set([cycleid, cycleid2]), numCyclesOnTheNode
+                    )
+                    # decrement the number-of-cycles-at-a-node counter
+                    # for each node on the second cycle.
+                    for node in nodes:
+                        numCyclesOnTheNode[node] -= 1
+    return _vitrites
+
+
+def test():
+    g = nx.Graph()
+    # a lattice graph of 4x4x4
+    X, Y, Z = np.meshgrid(np.arange(4.0), np.arange(4.0), np.arange(4.0))
+    X = X.reshape(64)
+    Y = Y.reshape(64)
+    Z = Z.reshape(64)
+    coord = np.array([X, Y, Z]).T
+    # fractional coordinate
+    coord /= 4
+    for a in range(64):
+        for b in range(a):
+            d = coord[b] - coord[a]
+            # periodic boundary condition
+            d -= np.floor(d + 0.5)
+            # if adjacent
+            if d @ d &lt; 0.3**2:
+                g.add_edge(a, b)
+    # PBC-compliant
+    A = [cycle for cycle in cycles_iter(g, 4, pos=coord)]
+    print(f&#34;Number of cycles (PBC compliant): {len(A)}&#34;)
+    vitrites = [v for v in polyhedra_iter(A)]
+    print(f&#34;Number of cubes: {len(vitrites)}&#34;)
+
+
+if __name__ == &#34;__main__&#34;:
+    test()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="cycless.polyhed.polyhedra_iter"><code class="name flex">
+<span>def <span class="ident">polyhedra_iter</span></span>(<span>_cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False) ‑> Generator[tuple, None, None]</span>
+</code></dt>
+<dd>
+<div class="desc"><p><em>summary</em></p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>_cycles</code></strong> :&ensp;<code>list</code></dt>
+<dd><em>description</em></dd>
+<dt><strong><code>maxnfaces</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd><em>description</em>. Defaults to 20.</dd>
+<dt><strong><code>maxfragsize</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd><em>description</em>. Defaults to 0.</dd>
+<dt><strong><code>quick</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd><em>description</em>. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>_type_</code></dt>
+<dd><em>description</em></dd>
+</dl>
+<h2 id="yields">Yields</h2>
+<dl>
+<dt><code>Generator[tuple, None, None]</code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def polyhedra_iter(
+    _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
+) -&gt; Generator[tuple, None, None]:
+    &#34;&#34;&#34;_summary_
+
+    Args:
+        _cycles (list): _description_
+        maxnfaces (int, optional): _description_. Defaults to 20.
+        maxfragsize (int, optional): _description_. Defaults to 0.
+        quick (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        _type_: _description_
+
+    Yields:
+        Generator[tuple, None, None]: _description_
+    &#34;&#34;&#34;
+
+    # Local functions
+
+    def _RegisterTriplets(cycle, cycleid):
+        for triplet in _Triplets(cycle):
+            _cyclesAtATriplet[triplet].append(cycleid)
+            tr = tuple(reversed(triplet))
+            _cyclesAtATriplet[tr].append(cycleid)
+
+    def _RegisterEdges(cycle, cycleid):
+        for edge in _Edges(cycle):
+            _cyclesAtAnEdge[edge].append(cycleid)
+            ed = tuple(reversed(edge))
+            _cyclesAtAnEdge[ed].append(cycleid)
+
+    def _IsDivided(fragment, quick=False):
+        if quick:
+            return _IsDivided2(fragment)
+        nodes = set()
+        for cycle in fragment:
+            nodes |= set(_cycles[cycle])
+        G2 = _G.copy()
+        ebunch = []
+        for i in nodes:
+            for j in _G.neighbors(i):
+                ebunch.append((i, j))
+        # G2.remove_edges_from(ebunch)
+        G2.remove_nodes_from(nodes)
+        logger.debug(
+            &#34;NCOMPO: {0} {1}&#34;.format(nx.number_connected_components(G2), _ncompo)
+        )
+        return nx.number_connected_components(G2) &gt; _ncompo
+
+    def _IsDivided2(fragment):
+        &#34;&#34;&#34;fragmentに隣接する頂点で、その隣接点が全部fragmentの頂点であるようなものがあれば、そいつは孤立している。
+        ただし、この考え方では、内部頂点が2つ以上あるような大フラグメントは見落す。
+        &#34;&#34;&#34;
+        # fragmentに属する全ノード
+        nodes = set()
+        for cycle in fragment:
+            nodes |= set(_cycles[cycle])
+        # fragmentに隣接する全ノードを抽出する
+        adj = set()
+        for node in nodes:
+            for nei in _G[node]:
+                if nei not in nodes:
+                    adj.add(nei)
+        # 隣接ノードの隣接が全部フラグメントに含まれているなら、そいつは孤立している
+        for node in adj:
+            linked = False
+            for nei in _G[node]:
+                if nei not in nodes:
+                    linked = True
+                    break
+            if not linked:
+                # logger.info(&#34;Isolated node&#34;)
+                return True
+        return False
+
+    # Return True if the given fragment contains cycles that are not the
+    # member of the fragment.
+    def _ContainsExtraCycle(fragment):
+        tris = set()
+        allnodes = set()
+        # A fragment is a set of cycle IDs.
+        for cycleid in fragment:
+            nodes = _cycles[cycleid]
+            allnodes |= set(nodes)
+            tris |= set(_Triplets(nodes))
+        for tri in tris:
+            for cycleid in _cyclesAtATriplet[tri]:
+                if cycleid not in fragment:
+                    # if all the nodes of a cycle is included in the fragment,
+                    nodes = _cycles[cycleid]
+                    if len(set(nodes) - allnodes) == 0:
+                        return True
+                    # logger.debug(fragment,cycleid)
+        return False
+
+    # Grow up a set of cycles by adding new cycle on the perimeter.
+    # Return the list of polyhedron.
+    # origin is the cycle ID of the first face in the polyhedron
+
+    def _Progress(origin, peri, fragment, numCyclesOnTheNode):
+        # Here we define a &#34;face&#34; as a cycle belonging to the (growing)
+        # polyhedron.
+        logger.debug(f&#34;#{peri} {fragment}&#34;)
+        if len(fragment) &gt; maxnfaces:
+            # logger.debug(&#34;#LIMITTER&#34;)
+            return
+        # if the perimeter closes,
+        if len(peri) == 0:
+            if _ContainsExtraCycle(fragment):
+                # If the fragment does not contain any extra cycle whose all
+                # vertices belong to the fragment but the cycle is not a face,
+                logger.debug(&#34;It contains extra cycles(s).&#34;)
+            else:
+                # If the polyhedron has internal vertices that are not a part of
+                # the polyhedron (i.e. if the polyhedron does not divide the total
+                # network into to components)
+                if _IsDivided(fragment, quick):
+                    logger.info(&#34;It has internal vertices.&#34;)
+                else:
+                    # Add the fragment to the list.
+                    # A fragment is a set of cycle IDs of the faces
+                    fs = frozenset(fragment)
+                    if fs not in _vitrites:
+                        yield fragment
+                        _vitrites.add(fs)
+            # Search finished.
+            return
+        # If the perimeter is still open,
+        for i in range(len(peri)):
+            # If any vertex on the perimeter is shared by more than two faces,
+            if numCyclesOnTheNode[peri[i]] &gt; 2:
+                logger.debug(&#34;#Failed(2)&#34;)
+                return
+        for i in range(len(peri)):
+            # Look up the node on the perimeter which is shared by two faces.
+            if numCyclesOnTheNode[peri[i]] == 2:
+                # Reset the frag
+                trynext = False
+                # Three successive nodes around the node i
+                center = peri[i]
+                left = peri[i - 1]
+                # Avoid to refer the out-of-list element
+                right = peri[i + 1 - len(peri)]
+                # Reset the frag
+                success = False
+                logger.debug(f&#34;Next triplet:{left} {center} {right}&#34;)
+                if (left, center, right) in _cyclesAtATriplet:
+                    logger.debug(
+                        &#34;Here cycles are:{0}&#34;.format(
+                            _cyclesAtATriplet[(left, center, right)]
+                        )
+                    )
+                    for cycleid in _cyclesAtATriplet[(left, center, right)]:
+                        logger.debug(f&#34;#Next:{cycleid}&#34;)
+                        # if the cycle is new and its ID is larger than the
+                        # origin,
+                        if origin &lt; cycleid and cycleid not in fragment:
+                            nodes = _cycles[cycleid]
+                            # Add the cycle as a face and extend the perimeter
+                            newperi = _MergeCycles(peri, nodes, center, right)
+                            logger.debug(f&#34;#Result:{newperi}&#34;)
+                            # result is not a simple cycle
+                            if newperi is None:
+                                trynext = True
+                                logger.debug(&#34;#Try next!&#34;)
+                            else:
+                                for node in nodes:
+                                    numCyclesOnTheNode[node] += 1
+                                    mult = [numCyclesOnTheNode[i] for i in newperi]
+                                    logger.debug(
+                                        f&#34;#{peri} {nodes} {edge} {newperi} {mult}&#34;
+                                    )
+                                yield from _Progress(
+                                    origin,
+                                    newperi,
+                                    fragment
+                                    | set(
+                                        [
+                                            cycleid,
+                                        ]
+                                    ),
+                                    numCyclesOnTheNode,
+                                )
+                                for node in nodes:
+                                    numCyclesOnTheNode[node] -= 1
+                                # if result == True:
+                                #    return True
+                # it might be too aggressive
+                if not trynext:
+                    break
+        logger.debug(f&#34;#Failed to expand perimeter {peri} {fragment}&#34;)
+        return
+
+    logger = getLogger()
+
+    if maxfragsize &gt; 0:
+        logger.warn(&#34;maxfragsize is deprecated. Use maxnfaces instead.&#34;)
+        maxnfaces = maxfragsize
+        del maxnfaces
+
+    _cyclesAtATriplet = defaultdict(list)
+    _cyclesAtAnEdge = defaultdict(list)
+
+    for cycleid, cycle in enumerate(_cycles):
+        _RegisterTriplets(cycle, cycleid)
+        _RegisterEdges(cycle, cycleid)
+    # For counting the number of components separated by a polyhedral fragment
+    _G = nx.Graph()
+
+    for cycle in _cycles:
+        nx.add_cycle(_G, cycle)
+    _ncompo = nx.number_connected_components(_G)
+
+    _vitrites = set()
+    # The first cycle
+    for cycleid in range(len(_cycles)):
+        peri = _cycles[cycleid]
+        fragment = set([cycleid])
+        edge = tuple(peri[0:2])
+        numCyclesOnTheNode = defaultdict(int)
+        # increment the number-of-cycles-at-a-node counter
+        # for each node on the first cycle.
+        for node in peri:
+            numCyclesOnTheNode[node] = 1
+            logger.debug(&#34;#Candid: {0} {1}&#34;.format(cycleid, _cyclesAtAnEdge[edge]))
+        # The second cycle, which is adjacent to the first one.
+        for cycleid2 in _cyclesAtAnEdge[edge]:
+            # The second one must have larger cycle ID than the first one.
+            if cycleid &lt; cycleid2:
+                nodes = _cycles[cycleid2]
+                # Make the perimeter of two cycles.
+                newperi = _MergeCycles(peri, nodes, edge[0], edge[1])
+                if newperi is not None:
+                    # increment the number-of-cycles-at-a-node counter
+                    # for each node on the second cycle.
+                    for node in nodes:
+                        numCyclesOnTheNode[node] += 1
+                        mult = [numCyclesOnTheNode[i] for i in newperi]
+                        logger.debug(
+                            &#34;{0} {1} {2} {3} {4}&#34;.format(
+                                peri, nodes, edge, newperi, mult
+                            )
+                        )
+                    # Expand the perimeter by adding new faces to the
+                    # polyhedron.
+                    yield from _Progress(
+                        cycleid, newperi, set([cycleid, cycleid2]), numCyclesOnTheNode
+                    )
+                    # decrement the number-of-cycles-at-a-node counter
+                    # for each node on the second cycle.
+                    for node in nodes:
+                        numCyclesOnTheNode[node] -= 1
+    return _vitrites</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="cycless" href="index.html">cycless</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="cycless.polyhed.polyhedra_iter" href="#cycless.polyhed.polyhedra_iter">polyhedra_iter</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

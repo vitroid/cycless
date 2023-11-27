@@ -5,15 +5,19 @@
 import sys
 from collections import defaultdict
 from logging import getLogger
+from typing import Generator
 
 import networkx as nx
 import numpy as np
 
 from cycless.cycles import cycles_iter
 
+# for pDoc3
+__all__ = ["polyhedra_iter"]
+
 
 def cage_to_graph(cage, ringlist):
-    "Convert a cage as a set of cycles to a graph. "
+    "Convert a cage as a set of cycles to a graph."
     g = nx.Graph()
     for ring in cage:
         nodes = ringlist[ring]
@@ -58,13 +62,8 @@ def _MergeCycles(cycle1, cycle2, first, second):
     cycle = [r1[i] for i in range(tail - len(r1), head)]
     cycle += [r2[i] for i in range(head, tail - len(r2), -1)]
     logger.debug(
-        "#{0} {1} {2} {3} {4}".format(
-            head,
-            tail,
-            cycle,
-            rest1,
-            rest2,
-            rest1 & rest2))
+        "#{0} {1} {2} {3} {4}".format(head, tail, cycle, rest1, rest2, rest1 & rest2)
+    )
     return cycle
 
 
@@ -82,14 +81,24 @@ def _Edges(cycle):
     return ed
 
 
-def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
-    """
-    A generator of polyhedra (combinations of cycles)
+def polyhedra_iter(
+    _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
+) -> Generator[tuple, None, None]:
+    """_summary_
 
-    maxnfaces: Maximum number of faces.
-    maxfragsize: same as maxnfaces (deprecated)
-    quick: uses quick algorithm. Usually, the algorithm to guarantee that the matched fragments do not contain irrelevant nodes inside is very computationally expensive. However, when the size of the polyhedron to be detected is small, a fast algorithm can be substituted.
+    Args:
+        _cycles (list): _description_
+        maxnfaces (int, optional): _description_. Defaults to 20.
+        maxfragsize (int, optional): _description_. Defaults to 0.
+        quick (bool, optional): _description_. Defaults to False.
+
+    Returns:
+        _type_: _description_
+
+    Yields:
+        Generator[tuple, None, None]: _description_
     """
+
     # Local functions
 
     def _RegisterTriplets(cycle, cycleid):
@@ -118,9 +127,8 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
         # G2.remove_edges_from(ebunch)
         G2.remove_nodes_from(nodes)
         logger.debug(
-            "NCOMPO: {0} {1}".format(
-                nx.number_connected_components(G2),
-                _ncompo))
+            "NCOMPO: {0} {1}".format(nx.number_connected_components(G2), _ncompo)
+        )
         return nx.number_connected_components(G2) > _ncompo
 
     def _IsDivided2(fragment):
@@ -139,10 +147,10 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
                     adj.add(nei)
         # 隣接ノードの隣接が全部フラグメントに含まれているなら、そいつは孤立している
         for node in adj:
-            linked=False
+            linked = False
             for nei in _G[node]:
                 if nei not in nodes:
-                    linked=True
+                    linked = True
                     break
             if not linked:
                 # logger.info("Isolated node")
@@ -168,6 +176,7 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
                         return True
                     # logger.debug(fragment,cycleid)
         return False
+
     # Grow up a set of cycles by adding new cycle on the perimeter.
     # Return the list of polyhedron.
     # origin is the cycle ID of the first face in the polyhedron
@@ -220,8 +229,11 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
                 success = False
                 logger.debug(f"Next triplet:{left} {center} {right}")
                 if (left, center, right) in _cyclesAtATriplet:
-                    logger.debug("Here cycles are:{0}".format(
-                        _cyclesAtATriplet[(left, center, right)]))
+                    logger.debug(
+                        "Here cycles are:{0}".format(
+                            _cyclesAtATriplet[(left, center, right)]
+                        )
+                    )
                     for cycleid in _cyclesAtATriplet[(left, center, right)]:
                         logger.debug(f"#Next:{cycleid}")
                         # if the cycle is new and its ID is larger than the
@@ -238,11 +250,21 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
                             else:
                                 for node in nodes:
                                     numCyclesOnTheNode[node] += 1
-                                    mult = [numCyclesOnTheNode[i]
-                                            for i in newperi]
+                                    mult = [numCyclesOnTheNode[i] for i in newperi]
                                     logger.debug(
-                                        f"#{peri} {nodes} {edge} {newperi} {mult}")
-                                yield from _Progress(origin, newperi, fragment | set([cycleid, ]), numCyclesOnTheNode)
+                                        f"#{peri} {nodes} {edge} {newperi} {mult}"
+                                    )
+                                yield from _Progress(
+                                    origin,
+                                    newperi,
+                                    fragment
+                                    | set(
+                                        [
+                                            cycleid,
+                                        ]
+                                    ),
+                                    numCyclesOnTheNode,
+                                )
                                 for node in nodes:
                                     numCyclesOnTheNode[node] -= 1
                                 # if result == True:
@@ -284,9 +306,7 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
         # for each node on the first cycle.
         for node in peri:
             numCyclesOnTheNode[node] = 1
-            logger.debug(
-                "#Candid: {0} {1}".format(
-                    cycleid, _cyclesAtAnEdge[edge]))
+            logger.debug("#Candid: {0} {1}".format(cycleid, _cyclesAtAnEdge[edge]))
         # The second cycle, which is adjacent to the first one.
         for cycleid2 in _cyclesAtAnEdge[edge]:
             # The second one must have larger cycle ID than the first one.
@@ -302,10 +322,14 @@ def polyhedra_iter(_cycles, maxnfaces=20, maxfragsize=0, quick=False):
                         mult = [numCyclesOnTheNode[i] for i in newperi]
                         logger.debug(
                             "{0} {1} {2} {3} {4}".format(
-                                peri, nodes, edge, newperi, mult))
+                                peri, nodes, edge, newperi, mult
+                            )
+                        )
                     # Expand the perimeter by adding new faces to the
                     # polyhedron.
-                    yield from _Progress(cycleid, newperi, set([cycleid, cycleid2]), numCyclesOnTheNode)
+                    yield from _Progress(
+                        cycleid, newperi, set([cycleid, cycleid2]), numCyclesOnTheNode
+                    )
                     # decrement the number-of-cycles-at-a-node counter
                     # for each node on the second cycle.
                     for node in nodes:

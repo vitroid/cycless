@@ -2,11 +2,18 @@
 
 import numpy as np
 import networkx as nx
+from typing import Generator
 
 # for a directed graph
 
 
-def dicycles_iter(digraph, size, vec=False):
+# for pDoc3
+__all__ = ["dicycles_iter"]
+
+
+def dicycles_iter(
+    digraph: nx.DiGraph, size: int, vec: bool = False
+) -> Generator[tuple, None, None]:
     """
     List the cycles of the size only. No shortcuts are allowed during the search.
 
@@ -52,6 +59,7 @@ def dicycles_iter(digraph, size, vec=False):
 
 def test():
     import random
+
     random.seed(1)
     dg = nx.DiGraph()
     # a lattice graph of 4x4x4

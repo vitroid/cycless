@@ -1,9 +1,13 @@
 from logging import getLogger
 from methodtools import lru_cache
 import itertools
+from typing import Generator
 
 import numpy as np
 import networkx as nx
+
+# for pDoc3
+__all__ = ["cycles_iter"]
 
 
 def centerOfMass(members, rpos):
@@ -20,12 +24,15 @@ def centerOfMass(members, rpos):
 
 
 # Modified from CountRings class in gtihub/vitroid/countrngs
-def cycles_iter(graph, maxsize, pos=None):
+def cycles_iter(
+    graph: nx.Graph, maxsize: int, pos: np.ndarray = None
+) -> Generator[tuple, None, None]:
     """
     A generator of cycles in a graph.
     The graph must not be directed.
     Specify the positions of the vertices in a orthogonal cell in the fractional coordinate if you want to avoid the spanning cycles.
     """
+
     # shortes_pathlen is a stateless function, so the cache is useful to avoid
     # re-calculations.
     @lru_cache(maxsize=None)
@@ -37,9 +44,7 @@ def cycles_iter(graph, maxsize, pos=None):
         for i in range(0, n):
             for j in range(i + 1, n):
                 d = min(j - i, n - (j - i))
-                if d > _shortest_pathlen(
-                    graph, frozenset(
-                        (members[i], members[j]))):
+                if d > _shortest_pathlen(graph, frozenset((members[i], members[j]))):
                     return True
         return False
 
@@ -73,7 +78,7 @@ def cycles_iter(graph, maxsize, pos=None):
         "Return True if the cycle spans the periodic cell."
         total = np.zeros_like(pos[cycle[0]])
         N = len(cycle)
-        for i, j in zip(cycle[-1:N-1], cycle):
+        for i, j in zip(cycle[-1 : N - 1], cycle):
             d = pos[i] - pos[j]
             d -= np.floor(d + 0.5)
             total += d

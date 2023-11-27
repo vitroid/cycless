@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+networkx = "*"
 
 [dev-packages]
 mdanalysis = "*"
@@ -12,6 +14,11 @@ networkx = "*"
 py3dmol = "*"
 cycless = "*"
 twine = "*"
+jupyter = "*"
+toml = "*"
+genice2 = "*"
+pdoc3 = "*"
+jinja2 = "*"
 
 [requires]
 python_version = "3.11"
