@@ -17,8 +17,8 @@ twine = "*"
 jupyter = "*"
 toml = "*"
 genice2 = "*"
-pdoc3 = "*"
 jinja2 = "*"
+pdoc = "*"
 
 [requires]
 python_version = "3.11"
