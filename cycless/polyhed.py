@@ -17,7 +17,16 @@ __all__ = ["polyhedra_iter"]
 
 
 def cage_to_graph(cage, ringlist):
-    "Convert a cage as a set of cycles to a graph."
+    """
+    The function `cage_to_graph` takes a cage and a ringlist as input and returns a graph representation    of the cage.
+
+    Args:
+      cage: The `cage` parameter is a list of integers representing the rings in the cage. Each integer    corresponds to a ring in the `ringlist` parameter.
+      ringlist: The `ringlist` parameter is a dictionary where the keys are ring numbers and the values    are lists of nodes that belong to each ring.
+
+    Returns:
+      The function `cage_to_graph` returns a graph object `g` created using the `nx.Graph()` function    from the NetworkX library.
+    """
     g = nx.Graph()
     for ring in cage:
         nodes = ringlist[ring]
@@ -28,7 +37,17 @@ def cage_to_graph(cage, ringlist):
 
 
 def _reorder(cycle, first, second):
-    "Reorder the cycle noders so as to start from the first node."
+    """
+    The function `_reorder` takes a cycle, a first element, and a second element as input, and returns a    reordered list of elements from the cycle based on the positions of the first and second elements.
+
+    Args:
+      cycle: The `cycle` parameter is a list representing a cycle of elements. Each element in the list    represents a node in the cycle, and the order of the elements in the list represents the order of    the nodes in the cycle.
+      first: The `first` parameter is the element in the `cycle` list that you want to be the first    element in the reordered list.
+      second: The "second" parameter in the given function is the element that should come immediately    after the "first" element in the reordered cycle.
+
+    Returns:
+      The function `_reorder` returns a list `r` that contains the elements of the `cycle` list in a    reordered manner. The order of the elements in `r` depends on the positions of `first` and `second`    in the `cycle` list.
+    """
     s = cycle.index(first)
     if cycle[s - 1] == second:
         r = [cycle[i] for i in range(s, s - len(cycle), -1)]
@@ -38,7 +57,18 @@ def _reorder(cycle, first, second):
 
 
 def _MergeCycles(cycle1, cycle2, first, second):
-    "get two lists of nodes (cycles) and make a large cycle."
+    """
+    The function takes two cycles represented as lists of nodes and merges them into a larger cycle by    finding the common nodes and connecting them.
+
+    Args:
+      cycle1: A list of nodes representing the first cycle.
+      cycle2: The `cycle2` parameter is a list of nodes representing a cycle.
+      first: The `first` parameter is a list of nodes representing the first cycle.
+      second: The `second` parameter is a list of nodes representing the second cycle.
+
+    Returns:
+      a large cycle, which is a combination of two smaller cycles. If the remaining parts of the cycle    have common nodes, the function returns None, indicating that the resulting cycle is not a simple    cycle.
+    """
     logger = getLogger()
     r1 = _reorder(cycle1, first, second)
     r2 = _reorder(cycle2, first, second)

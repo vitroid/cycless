@@ -14,24 +14,37 @@ __all__ = ["dicycles_iter"]
 def dicycles_iter(
     digraph: nx.DiGraph, size: int, vec: bool = False
 ) -> Generator[tuple, None, None]:
-    """Homodromic cycles in a given digraph.
+    """
+    The `dicycles_iter` function is used to find homodromic cycles of a specified size in a given
+    directed graph.
 
     Args:
-        digraph (nx.DiGraph): the digraph.
-        size (int): size of a cycle. (only one size)
-        vec (bool, optional): If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.
-
-    Yields:
-        Generator[tuple, None, None]: List of lists of node labels.
+      digraph (nx.DiGraph): The `digraph` parameter represents a directed graph. It can be represented as a data structure such as a dictionary of dictionaries or a networkx DiGraph object. It contains information about the connections between nodes in the graph.
+      size (int): The `size` parameter represents the desired length of the cycles that you want to find in the given digraph.
+      vec (bool): The `vec` parameter is a boolean flag that determines whether the orientations of the vectors are given as attributes of the edges. If `vec` is set to True, the function will check the dipole moment of each cycle to determine if it is a homodromic cycle. Defaults to False
     """
+
+    # """Homodromic cycles in a given digraph.
+
+    # Args:
+    #     digraph (nx.DiGraph): the digraph.
+    #     size (int): size of a cycle. (only one size)
+    #     vec (bool, optional): If True, the orientations of the vectors is given as the attributes of the edges and the spanning cycles are avoided. Defaults to False.
+
+    # Yields:
+    #     Generator[tuple, None, None]: List of lists of node labels.
+    # """
 
     def _find(digraph, history, size):
         """
-        Recursively find a homodromic cycle.
+        `_find` 関数は、有向グラフ内の指定されたサイズのすべてのサイクルを再帰的に検索し、それらをタプルとして返します。
 
-        No shortcut is allowed.
-
-        The label of the first vertex in the history (head) must be the smallest.
+        Args:
+          digraph: `digraph` パラメータは有向グラフを表します。これは、辞書の辞書や networkx DiGraph
+        オブジェクトなどのデータ構造として表すことができます。これには、グラフ内のノード間の接続に関する情報が含まれます。
+          history:
+        「history」パラメータは、深さ優先検索アルゴリズムでこれまでにアクセスしたノードを追跡するリストです。これは空のリストとして開始され、アルゴリズムが進行するにつれて更新されます。
+          size: 「size」パラメータは、有向グラフ内で検索しようとしている履歴またはパスの必要な長さを表します。
         """
         head = history[0]
         last = history[-1]
@@ -63,6 +76,9 @@ def dicycles_iter(
 
 
 def test():
+    """
+    「test」関数は格子グラフを生成し、グラフ内の周期境界条件 (PBC) に準拠しているサイクル数と準拠していないサイクル数を計算します。
+    """
     import random
 
     random.seed(1)

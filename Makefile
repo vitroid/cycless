@@ -11,9 +11,7 @@ FAU.gro:
 	python replacer.py < $< > $@
 
 doc: README.md CITATION.cff 
-	pdoc3 --html -o docs-tmp --force cycless
-	-rm -rf docs
-	mv docs-tmp/cycless docs
+	pdoc -o docs ./cycless --docformat google
 
 
 

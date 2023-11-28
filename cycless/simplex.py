@@ -1,15 +1,17 @@
 import networkx as nx
-from typing import Generator
+from typing import Generator, Union
 
 
-def triangles_iter(g: nx.Graph) -> Generator[tuple, None, None]:
-    """Generator of triangle subgraphs
+__all__ = ["triangles_iter", "tetrahedra_iter", "octahedra_iter", "tetra_adjacency"]
+
+
+def triangles_iter(g: Union[dict, nx.Graph]) -> Generator[tuple, None, None]:
+    """
+    The `triangles_iter` function generates all triangles in a given graph by iterating over all
+    vertices and their adjacent vertices.
 
     Args:
-        g (networkx.Graph): a graph.
-
-    Yields:
-        list of int: labels of the nodes
+      g (Union[dict, nx.Graph]): Represents a graph where each vertex is a key in the     dictionary `g`, and the corresponding value is a set of vertices that are adjacent to the key     vertex.
     """
     # gに含まれるすべて頂点iに関して
     for i in g:
@@ -26,13 +28,12 @@ def triangles_iter(g: nx.Graph) -> Generator[tuple, None, None]:
 
 
 def tetrahedra_iter(g: nx.Graph) -> Generator[tuple, None, None]:
-    """Generator of tetrahedral subgraphs
+    """
+    The function `tetrahedra_iter` generates all possible tetrahedra in a given graph.
 
     Args:
-        g (networkx.Graph):  a graph.
-
-    Yields:
-        list of int: labels of the nodes
+      g (nx.Graph): The parameter `g` is a graph represented as an instance of the `nx.Graph` class from
+    the NetworkX library.
     """
     for i, j, k in triangles_iter(g):
         for l in g[k]:
@@ -62,13 +63,12 @@ template = nx.Graph(
 
 
 def octahedra_iter(g: nx.Graph) -> Generator[list, None, None]:
-    """Generator of octahedral subgraphs
+    """
+    The function `octahedra_iter` is a generator that yields lists of node labels that form octahedral
+    subgraphs in a given graph.
 
     Args:
-        g (networkx.Graph):  a graph.
-
-    Yields:
-        list of int: labels of the nodes matched to the template
+      g (nx.Graph): The parameter `g` is a networkx graph. It represents the input graph on which we    want to find octahedral subgraphs.
     """
     ismags = nx.isomorphism.ISMAGS(g, template)
     # symmetry=Trueにしておくと、同じ四面体に1回だけマッチする(24回ではない)。
@@ -87,14 +87,17 @@ def octahedra_iter(g: nx.Graph) -> Generator[list, None, None]:
 
 
 def tetra_adjacency(g: nx.Graph) -> tuple:
-    """グラフから四面体を抽出し、さらにその隣接関係をグラフにして返す。
+    """
+    The function `tetra_adjacency` takes a graph as input, extracts the tetrahedra from the graph,
+    assigns unique IDs to each tetrahedron, and creates an adjacency graph of the tetrahedra.
 
     Args:
-        g (networx.Graph): 原子の隣接関係
+      g (nx.Graph): The parameter `g` is a networkx Graph object that represents the adjacency    relationships between atoms.
 
     Returns:
-        list of tetrahedra, specified by the labels of the nodes
-        adjacency graph of the tetrahedra
+      a tuple containing two elements:
+    1. `tet_memb`: a list of tetrahedra specified by the labels of the nodes.
+    2. `gtet`: an adjacency graph of the tetrahedra.
     """
 
     tet_memb = [ijkl for ijkl in tetrahedra_iter(g)]
