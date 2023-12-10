@@ -18,27 +18,22 @@ doc: README.md CITATION.cff
 
 
 
-test-deploy: build
-	twine upload -r pypitest dist/*
+test-deploy:
+	poetry publish --build -r testpypi
 test-install:
-	pip install networkx numpy
 	pip install --index-url https://test.pypi.org/simple/ $(PROJECT)
 
 
-install: README.md
-	./setup.py install
 uninstall:
 	-pip uninstall -y $(PROJECT)
-build: README.md $(wildcard cycles/*.py)
-	./setup.py sdist bdist_wheel
+# build: README.md $(wildcard cycles/*.py)
+# 	./setup.py sdist bdist_wheel
 
 
-deploy: build
-	twine upload dist/*
+deploy:
+	poetry publish --build
 check:
-	./setup.py check
-pep8:
-	autopep8 -r -a -a -i .
+	poetry check
 clean:
 	-rm -rf build dist
 distclean:

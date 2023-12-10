@@ -4,3 +4,30 @@
 "Homepage" = "https://github.com/vitroid/cycless"
 "Bug Tracker" = "https://github.com/vitroid/cycless/issues"
 "manual" = "https://vitroid.github.io/cycless"
+
+[tool.poetry]
+name = "cycless"
+version = "0.3.1"
+description = "A collection of algorithms for cycles in a graph."
+authors = ["vitroid <vitroid@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+methodtools = "^0.4.7"
+
+[tool.poetry.group.dev.dependencies]
+networkx = "^3.2.1"
+numpy = "^1.26.2"
+mdanalysis = "^2.6.1"
+py3dmol = "^2.0.4"
+twine = "^4.0.2"
+jupyter = "^1.0.0"
+toml = "^0.10.2"
+jinja2 = "^3.1.2"
+pdoc = "^14.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
