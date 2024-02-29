@@ -2,6 +2,7 @@ from logging import getLogger
 from methodtools import lru_cache
 import itertools
 from typing import Generator
+import heapq
 
 import numpy as np
 import networkx as nx
@@ -36,6 +37,39 @@ def cycles_iter(
       pos (np.ndarray): The `pos` parameter is an optional argument that represents the fractional    coordinates of the nodes in the graph. It is a numpy array of shape (n, m), where n is the number of    nodes in the graph. Each row in the array represents the fractional coordinates of a node in the    graph.
     """
 
+    def shortest_paths(G, start, end, exclude=set()):
+        """
+        Find all shortests paths from the start to end.
+
+        Returns:
+        list of shortest paths from the start to one of the ends.
+        """
+        q = [
+            (
+                0,
+                [
+                    start,
+                ],
+            )
+        ]  # Heap of (cost, path)
+        cheapest = 999999
+        while len(q):
+            # logger.debug(q)
+            (cost, path) = heapq.heappop(q)
+            if cost > cheapest:
+                break
+            v0 = path[-1]
+            if v0 == end:
+                cheapest = cost  # first arrived
+                yield path
+            else:
+                if v0 in exclude:
+                    continue
+                exclude.add(v0)
+                for v1 in G[v0]:
+                    if v1 not in exclude:
+                        heapq.heappush(q, (cost + 1, path + [v1]))
+
     # shortes_pathlen is a stateless function, so the cache is useful to avoid
     # re-calculations.
     @lru_cache(maxsize=None)
@@ -50,32 +84,6 @@ def cycles_iter(
                 if d > _shortest_pathlen(graph, frozenset((members[i], members[j]))):
                     return True
         return False
-
-    def _findring(graph, members, maxsize):
-        # print members, "maxsize:", maxsize
-        if len(members) > maxsize:
-            return (maxsize, [])
-        s = set(members)
-        last = members[-1]
-        results = []
-        for adj in graph[last]:
-            if adj in s:
-                if adj == members[0]:
-                    # Ring is closed.
-                    # It is the best and unique answer.
-                    if not _shortcuts(graph, members):
-                        return (len(members), [members])
-                else:
-                    # Shortcut ring
-                    pass
-            else:
-                (newmax, newres) = _findring(graph, members + [adj], maxsize)
-                if newmax < maxsize:
-                    maxsize = newmax
-                    results = newres
-                elif newmax == maxsize:
-                    results += newres
-        return (maxsize, results)
 
     def _is_spanning(cycle):
         "Return True if the cycle spans the periodic cell."
@@ -92,8 +100,12 @@ def cycles_iter(
     for x in graph:
         neis = sorted(graph[x])
         for y, z in itertools.combinations(neis, 2):
-            triplet = [y, x, z]
-            (_max, results) = _findring(graph, triplet, maxsize)
+            results = []
+            for cycle in shortest_paths(graph, z, y, {x}):
+                members = [x] + cycle
+                assert cycle[0] == z and cycle[-1] == y
+                if not _shortcuts(graph, members):
+                    results.append(members)
             for i in results:
                 # Make i immutable for the key.
                 j = frozenset(i)

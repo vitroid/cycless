@@ -1,4 +1,4 @@
-PROJECT=cycless
+PKGNAME=cycless
 all: README.md
 	echo Hello.
 test: test.py $(wildcard cycles/*.py)
@@ -21,19 +21,17 @@ doc: README.md CITATION.cff
 test-deploy:
 	poetry publish --build -r testpypi
 test-install:
-	pip install --index-url https://test.pypi.org/simple/ $(PROJECT)
-
-
+	pip install --index-url https://test.pypi.org/simple/ $(PKGNAME)
 uninstall:
-	-pip uninstall -y $(PROJECT)
-# build: README.md $(wildcard cycles/*.py)
-# 	./setup.py sdist bdist_wheel
-
-
+	-pip uninstall -y $(PKGNAME)
+build: README.md $(wildcard cycles/*.py)
+	poetry build
 deploy:
 	poetry publish --build
 check:
 	poetry check
+
+
 clean:
 	-rm -rf build dist
 distclean:
