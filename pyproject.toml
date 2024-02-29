@@ -7,7 +7,7 @@
 
 [tool.poetry]
 name = "cycless"
-version = "0.4"
+version = "0.4.1"
 description = "A collection of algorithms for cycles in a graph."
 authors = ["vitroid <vitroid@gmail.com>"]
 license = "MIT"
