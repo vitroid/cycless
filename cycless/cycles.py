@@ -37,7 +37,7 @@ def cycles_iter(
       pos (np.ndarray): The `pos` parameter is an optional argument that represents the fractional    coordinates of the nodes in the graph. It is a numpy array of shape (n, m), where n is the number of    nodes in the graph. Each row in the array represents the fractional coordinates of a node in the    graph.
     """
 
-    def shortest_paths(G, start, end, exclude=set()):
+    def shortest_paths(G, start, end, exclude=set(), maxedges=999999):
         """
         Find all shortests paths from the start to end.
 
@@ -52,7 +52,7 @@ def cycles_iter(
                 ],
             )
         ]  # Heap of (cost, path)
-        cheapest = 999999
+        cheapest = maxedges
         while len(q):
             # logger.debug(q)
             (cost, path) = heapq.heappop(q)
@@ -101,7 +101,7 @@ def cycles_iter(
         neis = sorted(graph[x])
         for y, z in itertools.combinations(neis, 2):
             results = []
-            for cycle in shortest_paths(graph, z, y, {x}):
+            for cycle in shortest_paths(graph, z, y, {x}, maxedges=maxsize - 2):
                 members = [x] + cycle
                 assert cycle[0] == z and cycle[-1] == y
                 if not _shortcuts(graph, members):
