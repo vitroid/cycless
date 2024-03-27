@@ -89,24 +89,25 @@ def cycles_iter(
         "Return True if the cycle spans the periodic cell."
         total = np.zeros_like(pos[cycle[0]])
         N = len(cycle)
-        for i, j in zip(cycle[-1 : N - 1], cycle):
+        for i, j in zip(cycle[-1:] + cycle[:-1], cycle):
             d = pos[i] - pos[j]
             d -= np.floor(d + 0.5)
             total += d
         return np.any(np.absolute(total) > 1e-5)
+
+    def _complete_cycle(graph, x, y, z, maxsize):
+        for cycle in shortest_paths(graph, z, y, {x}, maxedges=maxsize - 2):
+            members = [x] + cycle
+            assert cycle[0] == z and cycle[-1] == y
+            if not _shortcuts(graph, members):
+                yield members
 
     logger = getLogger()
     rings = set()
     for x in graph:
         neis = sorted(graph[x])
         for y, z in itertools.combinations(neis, 2):
-            results = []
-            for cycle in shortest_paths(graph, z, y, {x}, maxedges=maxsize - 2):
-                members = [x] + cycle
-                assert cycle[0] == z and cycle[-1] == y
-                if not _shortcuts(graph, members):
-                    results.append(members)
-            for i in results:
+            for i in _complete_cycle(graph, x, y, z, maxsize):
                 # Make i immutable for the key.
                 j = frozenset(i)
                 # and original list as the value.
@@ -158,16 +159,19 @@ def test():
     A = set([cycle for cycle in cycles_iter(g, 4, pos=coord)])
     print(f"Number of cycles (PBC compliant): {len(A)}")
     print(A)
+    assert len(A) == 192
 
     # not PBC-compliant
     B = set([cycle for cycle in cycles_iter(g, 4)])
     print(f"Number of cycles (crude)        : {len(B)}")
     print(B)
+    assert len(B) == 240
 
     # difference
     C = B - A
     print("Cycles that span the cell:")
     print(C)
+    assert len(C) == 48
 
     # g1 = nx.Graph([(1,2),(2,3),(3,4)])
     # g2 = nx.Graph([(1,4)])

@@ -163,20 +163,23 @@
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="n">A</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">cycle</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">dicycles_iter</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">vec</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
 </span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cycles (PBC compliant): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>
-</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="c1"># not PBC-compliant</span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">cycle</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">dicycles_iter</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cycles (crude)        : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="c1"># difference</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">B</span> <span class="o">-</span> <span class="n">A</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cycles that span the cell:&quot;</span><span class="p">)</span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>    <span class="n">test</span><span class="p">()</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">25</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="c1"># not PBC-compliant</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">B</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">cycle</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">dicycles_iter</span><span class="p">(</span><span class="n">dg</span><span class="p">,</span> <span class="mi">4</span><span class="p">)])</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cycles (crude)        : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>    <span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>    <span class="c1"># difference</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>    <span class="n">C</span> <span class="o">=</span> <span class="n">B</span> <span class="o">-</span> <span class="n">A</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cycles that span the cell:&quot;</span><span class="p">)</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>    <span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span>
+</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a>
+</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
+</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="n">test</span><span class="p">()</span>
 </span></pre></div>
 
 

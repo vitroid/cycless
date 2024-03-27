@@ -385,8 +385,11 @@ def test():
     # PBC-compliant
     A = [cycle for cycle in cycles_iter(g, 4, pos=coord)]
     print(f"Number of cycles (PBC compliant): {len(A)}")
+    assert len(A) == 192
+
     vitrites = [v for v in polyhedra_iter(A)]
     print(f"Number of cubes: {len(vitrites)}")
+    assert len(vitrites) == 64
 
 
 if __name__ == "__main__":

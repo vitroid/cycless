@@ -441,12 +441,15 @@
 </span><span id="L-385"><a href="#L-385"><span class="linenos">385</span></a>    <span class="c1"># PBC-compliant</span>
 </span><span id="L-386"><a href="#L-386"><span class="linenos">386</span></a>    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="n">cycle</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cycles_iter</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">coord</span><span class="p">)]</span>
 </span><span id="L-387"><a href="#L-387"><span class="linenos">387</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cycles (PBC compliant): </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-388"><a href="#L-388"><span class="linenos">388</span></a>    <span class="n">vitrites</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polyhedra_iter</span><span class="p">(</span><span class="n">A</span><span class="p">)]</span>
-</span><span id="L-389"><a href="#L-389"><span class="linenos">389</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cubes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vitrites</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="L-390"><a href="#L-390"><span class="linenos">390</span></a>
-</span><span id="L-391"><a href="#L-391"><span class="linenos">391</span></a>
-</span><span id="L-392"><a href="#L-392"><span class="linenos">392</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-393"><a href="#L-393"><span class="linenos">393</span></a>    <span class="n">test</span><span class="p">()</span>
+</span><span id="L-388"><a href="#L-388"><span class="linenos">388</span></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="o">==</span> <span class="mi">192</span>
+</span><span id="L-389"><a href="#L-389"><span class="linenos">389</span></a>
+</span><span id="L-390"><a href="#L-390"><span class="linenos">390</span></a>    <span class="n">vitrites</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">polyhedra_iter</span><span class="p">(</span><span class="n">A</span><span class="p">)]</span>
+</span><span id="L-391"><a href="#L-391"><span class="linenos">391</span></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of cubes: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">vitrites</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span id="L-392"><a href="#L-392"><span class="linenos">392</span></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vitrites</span><span class="p">)</span> <span class="o">==</span> <span class="mi">64</span>
+</span><span id="L-393"><a href="#L-393"><span class="linenos">393</span></a>
+</span><span id="L-394"><a href="#L-394"><span class="linenos">394</span></a>
+</span><span id="L-395"><a href="#L-395"><span class="linenos">395</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="L-396"><a href="#L-396"><span class="linenos">396</span></a>    <span class="n">test</span><span class="p">()</span>
 </span></pre></div>
 
 

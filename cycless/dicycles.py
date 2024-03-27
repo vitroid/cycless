@@ -107,16 +107,19 @@ def test():
     A = set([cycle for cycle in dicycles_iter(dg, 4, vec=True)])
     print(f"Number of cycles (PBC compliant): {len(A)}")
     print(A)
+    assert len(A) == 25
 
     # not PBC-compliant
     B = set([cycle for cycle in dicycles_iter(dg, 4)])
     print(f"Number of cycles (crude)        : {len(B)}")
     print(B)
+    assert len(B) == 33
 
     # difference
     C = B - A
     print("Cycles that span the cell:")
     print(C)
+    assert len(C) == 8
 
 
 if __name__ == "__main__":
