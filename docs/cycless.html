@@ -21,19 +21,6 @@
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
 
-            <h2>Contents</h2>
-            <ul>
-  <li><a href="#cycless">cycless</a>
-  <ul>
-    <li><a href="#api">API</a></li>
-    <li><a href="#cyclespy">cycles.py</a></li>
-    <li><a href="#dicyclespy">dicycles.py</a></li>
-    <li><a href="#polyhedpy">polyhed.py</a></li>
-    <li><a href="#simplexpy">simplex.py</a></li>
-    <li><a href="#references">References</a></li>
-  </ul></li>
-</ul>
-
 
             <h2>Submodules</h2>
             <ul>
@@ -57,84 +44,7 @@
                     <h1 class="modulename">
 cycless    </h1>
 
-                        <div class="docstring"><h1 id="cycless">cycless</h1>
-
-<p>A collection of algorithms to analyze a graph as a set of cycles.</p>
-
-<p>Some codes come from <a href="vitroid/Polyhed">https://github.com/vitroid/Polyhed</a> and <a href="vitroid/countrings">https://github.com/vitroid/countrings</a> are integrated and improved.</p>
-
-<h2 id="api">API</h2>
-
-<p>API manual is <a href="https://vitroid.github.io/cycless">here</a>.</p>
-
-<h2 id="cyclespy">cycles.py</h2>
-
-<p>A simple algorithm to enumerate all irreducible cycles of n-members and smaller in an undirected graph. [Matsumoto 2007]</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="cycless/cycles.html">cycless.cycles</a></span> <span class="k">as</span> <span class="nn">cy</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-
-<span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">cubical_graph</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cy</span><span class="o">.</span><span class="n">cycles_iter</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<h2 id="dicyclespy">dicycles.py</h2>
-
-<p>An algorithm to enumerate the directed cycles of a size in a dircted graph. [Matsumoto 2021]</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">from</span> <span class="nn">genice2.genice</span> <span class="kn">import</span> <span class="n">GenIce</span>
-<span class="kn">from</span> <span class="nn">genice2.plugin</span> <span class="kn">import</span> <span class="n">Lattice</span><span class="p">,</span> <span class="n">Format</span><span class="p">,</span> <span class="n">Molecule</span>
-<span class="kn">import</span> <span class="nn"><a href="cycless/dicycles.html">cycless.dicycles</a></span> <span class="k">as</span> <span class="nn">dc</span>
-
-<span class="c1"># Generate an ice I structure as a directed graph</span>
-<span class="n">lattice</span> <span class="o">=</span> <span class="n">Lattice</span><span class="p">(</span><span class="s2">&quot;1h&quot;</span><span class="p">)</span>
-<span class="n">formatter</span> <span class="o">=</span> <span class="n">Format</span><span class="p">(</span><span class="s2">&quot;raw&quot;</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-<span class="n">raw</span> <span class="o">=</span> <span class="n">GenIce</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="s2">&quot;ice 1h&quot;</span><span class="p">,</span> <span class="n">rep</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">generate_ice</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
-
-<span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">dc</span><span class="o">.</span><span class="n">dicycles_iter</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="s2">&quot;digraph&quot;</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<h2 id="polyhedpy">polyhed.py</h2>
-
-<p>An algorithm to enumerate the quasi-polyhedral hull made of cycles in an undirected graph. A quasi-polyhedral hull (vitrite) obeys the following conditions: [Matsumoto 2007]</p>
-
-<ol>
-<li>The surface of the hull is made of irreducible cycles.</li>
-<li>Two or three cycles shares a vertex of the hull.</li>
-<li>Two cycles shares an edge of the hull.</li>
-<li>Its Euler index (F-E+V) is two.</li>
-</ol>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="kn">import</span> <span class="nn"><a href="cycless/cycles.html">cycless.cycles</a></span> <span class="k">as</span> <span class="nn">cy</span>
-<span class="kn">import</span> <span class="nn"><a href="cycless/polyhed.html">cycless.polyhed</a></span> <span class="k">as</span> <span class="nn">ph</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-
-<span class="n">g</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">dodecahedral_graph</span><span class="p">()</span>
-
-<span class="n">cycles</span> <span class="o">=</span> <span class="p">[</span><span class="n">cycle</span> <span class="k">for</span> <span class="n">cycle</span> <span class="ow">in</span> <span class="n">cy</span><span class="o">.</span><span class="n">cycles_iter</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)]</span>
-<span class="k">for</span> <span class="n">polyhed</span> <span class="ow">in</span> <span class="n">ph</span><span class="o">.</span><span class="n">polyhedra_iter</span><span class="p">(</span><span class="n">cycles</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">polyhed</span><span class="p">)</span>
-</code></pre>
-</div>
-
-<h2 id="simplexpy">simplex.py</h2>
-
-<p>Enumerate triangle, tetrahedral, and octahedral subgraphs found in the given graph.</p>
-
-<h2 id="references">References</h2>
-
-<ol>
-<li>M. Matsumoto, A. Baba, and I. Ohmine, Topological building blocks of hydrogen bond network in water, J. Chem. Phys. 127, 134504 (2007). <a href="http://doi.org/10.1063/1.2772627">http://doi.org/10.1063/1.2772627</a></li>
-<li>Matsumoto, M., Yagasaki, T. &amp; Tanaka, H. On the anomalous homogeneity of hydrogen-disordered ice and its origin. J. Chem. Phys. 155, 164502 (2021). <a href="https://doi.org/10.1063/5.0065215">https://doi.org/10.1063/5.0065215</a></li>
-</ol>
+                        <div class="docstring"><p></p>
 </div>
 
                         <input id="mod-cycless-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">

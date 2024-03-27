@@ -56,7 +56,7 @@ def _reorder(cycle, first, second):
     return r
 
 
-def _MergeCycles(cycle1, cycle2, first, second):
+def _merge_cycles(cycle1, cycle2, first, second):
     """
     The function takes two cycles represented as lists of nodes and merges them into a larger cycle by    finding the common nodes and connecting them.
 
@@ -112,7 +112,7 @@ def _Edges(cycle):
 
 
 def polyhedra_iter(
-    _cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
+    cycles: list, maxnfaces: int = 20, maxfragsize: int = 0, quick: bool = False
 ) -> list:
     """Quasi-polyhedra made of given cycles. A quasi-polyhedron is a polyhedron-like graph.
 
@@ -128,24 +128,24 @@ def polyhedra_iter(
 
     # Local functions
 
-    def _RegisterTriplets(cycle, cycleid):
+    def _register_triplets(cycle, cycleid):
         for triplet in _Triplets(cycle):
             _cyclesAtATriplet[triplet].append(cycleid)
             tr = tuple(reversed(triplet))
             _cyclesAtATriplet[tr].append(cycleid)
 
-    def _RegisterEdges(cycle, cycleid):
+    def _register_edges(cycle, cycleid):
         for edge in _Edges(cycle):
             _cyclesAtAnEdge[edge].append(cycleid)
             ed = tuple(reversed(edge))
             _cyclesAtAnEdge[ed].append(cycleid)
 
-    def _IsDivided(fragment, quick=False):
+    def _is_divided_by_the_polyhedron(poly, quick=False):
         if quick:
-            return _IsDivided2(fragment)
+            return _is_divided_by_the_pokyhedron2(poly)
         nodes = set()
-        for cycle in fragment:
-            nodes |= set(_cycles[cycle])
+        for cycle in poly:
+            nodes |= set(cycles[cycle])
         G2 = _G.copy()
         ebunch = []
         for i in nodes:
@@ -158,14 +158,14 @@ def polyhedra_iter(
         )
         return nx.number_connected_components(G2) > _ncompo
 
-    def _IsDivided2(fragment):
+    def _is_divided_by_the_pokyhedron2(fragment):
         """fragmentに隣接する頂点で、その隣接点が全部fragmentの頂点であるようなものがあれば、そいつは孤立している。
         ただし、この考え方では、内部頂点が2つ以上あるような大フラグメントは見落す。
         """
         # fragmentに属する全ノード
         nodes = set()
         for cycle in fragment:
-            nodes |= set(_cycles[cycle])
+            nodes |= set(cycles[cycle])
         # fragmentに隣接する全ノードを抽出する
         adj = set()
         for node in nodes:
@@ -186,19 +186,19 @@ def polyhedra_iter(
 
     # Return True if the given fragment contains cycles that are not the
     # member of the fragment.
-    def _ContainsExtraCycle(fragment):
+    def _contains_extra_cycles(fragment):
         tris = set()
         allnodes = set()
         # A fragment is a set of cycle IDs.
         for cycleid in fragment:
-            nodes = _cycles[cycleid]
+            nodes = cycles[cycleid]
             allnodes |= set(nodes)
             tris |= set(_Triplets(nodes))
         for tri in tris:
             for cycleid in _cyclesAtATriplet[tri]:
                 if cycleid not in fragment:
                     # if all the nodes of a cycle is included in the fragment,
-                    nodes = _cycles[cycleid]
+                    nodes = cycles[cycleid]
                     if len(set(nodes) - allnodes) == 0:
                         return True
                     # logger.debug(fragment,cycleid)
@@ -208,7 +208,7 @@ def polyhedra_iter(
     # Return the list of polyhedron.
     # origin is the cycle ID of the first face in the polyhedron
 
-    def _Progress(origin, peri, fragment, numCyclesOnTheNode):
+    def _progress(origin, peri, fragment, numCyclesOnTheNode):
         # Here we define a "face" as a cycle belonging to the (growing)
         # polyhedron.
         logger.debug(f"#{peri} {fragment}")
@@ -217,7 +217,7 @@ def polyhedra_iter(
             return
         # if the perimeter closes,
         if len(peri) == 0:
-            if _ContainsExtraCycle(fragment):
+            if _contains_extra_cycles(fragment):
                 # If the fragment does not contain any extra cycle whose all
                 # vertices belong to the fragment but the cycle is not a face,
                 logger.debug("It contains extra cycles(s).")
@@ -225,7 +225,7 @@ def polyhedra_iter(
                 # If the polyhedron has internal vertices that are not a part of
                 # the polyhedron (i.e. if the polyhedron does not divide the total
                 # network into to components)
-                if _IsDivided(fragment, quick):
+                if _is_divided_by_the_polyhedron(fragment, quick):
                     logger.info("It has internal vertices.")
                 else:
                     # Add the fragment to the list.
@@ -266,9 +266,9 @@ def polyhedra_iter(
                         # if the cycle is new and its ID is larger than the
                         # origin,
                         if origin < cycleid and cycleid not in fragment:
-                            nodes = _cycles[cycleid]
+                            nodes = cycles[cycleid]
                             # Add the cycle as a face and extend the perimeter
-                            newperi = _MergeCycles(peri, nodes, center, right)
+                            newperi = _merge_cycles(peri, nodes, center, right)
                             logger.debug(f"#Result:{newperi}")
                             # result is not a simple cycle
                             if newperi is None:
@@ -281,7 +281,7 @@ def polyhedra_iter(
                                     logger.debug(
                                         f"#{peri} {nodes} {edge} {newperi} {mult}"
                                     )
-                                yield from _Progress(
+                                yield from _progress(
                                     origin,
                                     newperi,
                                     fragment
@@ -312,20 +312,20 @@ def polyhedra_iter(
     _cyclesAtATriplet = defaultdict(list)
     _cyclesAtAnEdge = defaultdict(list)
 
-    for cycleid, cycle in enumerate(_cycles):
-        _RegisterTriplets(cycle, cycleid)
-        _RegisterEdges(cycle, cycleid)
+    for cycleid, cycle in enumerate(cycles):
+        _register_triplets(cycle, cycleid)
+        _register_edges(cycle, cycleid)
     # For counting the number of components separated by a polyhedral fragment
     _G = nx.Graph()
 
-    for cycle in _cycles:
+    for cycle in cycles:
         nx.add_cycle(_G, cycle)
     _ncompo = nx.number_connected_components(_G)
 
     _vitrites = set()
     # The first cycle
-    for cycleid in range(len(_cycles)):
-        peri = _cycles[cycleid]
+    for cycleid in range(len(cycles)):
+        peri = cycles[cycleid]
         fragment = set([cycleid])
         edge = tuple(peri[0:2])
         numCyclesOnTheNode = defaultdict(int)
@@ -338,9 +338,9 @@ def polyhedra_iter(
         for cycleid2 in _cyclesAtAnEdge[edge]:
             # The second one must have larger cycle ID than the first one.
             if cycleid < cycleid2:
-                nodes = _cycles[cycleid2]
+                nodes = cycles[cycleid2]
                 # Make the perimeter of two cycles.
-                newperi = _MergeCycles(peri, nodes, edge[0], edge[1])
+                newperi = _merge_cycles(peri, nodes, edge[0], edge[1])
                 if newperi is not None:
                     # increment the number-of-cycles-at-a-node counter
                     # for each node on the second cycle.
@@ -354,7 +354,7 @@ def polyhedra_iter(
                         )
                     # Expand the perimeter by adding new faces to the
                     # polyhedron.
-                    yield from _Progress(
+                    yield from _progress(
                         cycleid, newperi, set([cycleid, cycleid2]), numCyclesOnTheNode
                     )
                     # decrement the number-of-cycles-at-a-node counter

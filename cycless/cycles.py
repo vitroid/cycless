@@ -12,14 +12,11 @@ __all__ = ["cycles_iter"]
 
 
 def centerOfMass(members, rpos):
-    # logger = getLogger()
-    dtotal = np.zeros(3)
     origin = rpos[list(members)[0]]
-    for member in members:
-        d = rpos[member] - origin
-        d -= np.floor(d + 0.5)
-        dtotal += d
-    com = rpos[members[0]] + dtotal / len(members)
+    d = rpos[list(members)] - origin
+    d -= np.floor(d + 0.5)
+    relcom = np.mean(d, axis=0)
+    com = origin + relcom
     com -= np.floor(com)
     return com
 
@@ -29,20 +26,43 @@ def cycles_iter(
     graph: nx.Graph, maxsize: int, pos: np.ndarray = None
 ) -> Generator[tuple, None, None]:
     """
-    The function `cycles_iter` is a generator that finds all cycles in an undirected graph up to a    specified maximum size, and optionally checks if the cycles span a periodic cell based on fractional    coordinates of the nodes.
+    The function `cycles_iter` is a generator that finds all cycles in an undirected graph up to a
+    specified maximum size, and optionally checks if the cycles span a periodic cell based on fractional
+    coordinates of the nodes.
 
     Args:
-      graph (nx.Graph): The `graph` parameter is an undirected graph represented using the `nx.Graph`    class from the NetworkX library. It represents the connections between nodes in the graph.
-      maxsize (int): The `maxsize` parameter in the `cycles_iter` function represents the maximum size    of a cycle that the generator will yield. It determines the length of the cycles that the function    will search for in the graph.
-      pos (np.ndarray): The `pos` parameter is an optional argument that represents the fractional    coordinates of the nodes in the graph. It is a numpy array of shape (n, m), where n is the number of    nodes in the graph. Each row in the array represents the fractional coordinates of a node in the    graph.
+      graph (nx.Graph): The `graph` parameter is an undirected graph represented using the `nx.Graph`
+      class from the NetworkX library. It represents the connections between nodes in the graph.
+      maxsize (int): The `maxsize` parameter in the `cycles_iter` function represents the maximum size
+      of a cycle that the generator will yield. It determines the length of the cycles that the function
+      will search for in the graph.
+      pos (np.ndarray): The `pos` parameter is an optional argument that represents the fractional
+      coordinates of the nodes in the graph. It is a numpy array of shape (n, m), where n is the number of
+      nodes in the graph. Each row in the array represents the fractional coordinates of a node in the
+      graph.
     """
 
     def shortest_paths(G, start, end, exclude=set(), maxedges=999999):
         """
-        Find all shortests paths from the start to end.
+        The function `shortest_paths` finds all shortest paths from a start node to an end node in a graph,
+        excluding specified nodes and limiting the maximum number of edges.
 
-        Returns:
-        list of shortest paths from the start to one of the ends.
+        Args:
+          G: The parameter `G` in the `shortest_paths` function is expected to be a graph represented as a
+        dictionary where the keys are nodes and the values are lists of neighboring nodes. This dictionary
+        represents the connections between nodes in the graph.
+          start: The `start` parameter in the `shortest_paths` function represents the starting node from
+        which you want to find the shortest paths in the graph `G`. It is the node where the path search
+        begins.
+          end: The `end` parameter in the `shortest_paths` function represents the destination node in the
+        graph `G` to which you want to find the shortest paths from the `start` node.
+          exclude: The `exclude` parameter in the `shortest_paths` function is a set that contains nodes
+        which should be excluded from the path finding process. If a node is in the `exclude` set, it will
+        not be visited during the path traversal. This can be useful when you want to avoid certain
+          maxedges: The `maxedges` parameter in the `shortest_paths` function represents the maximum number
+        of edges allowed in a path. This parameter is used to limit the search space and prevent the
+        algorithm from exploring paths that are longer than the specified maximum number of edges. If a path
+        exceeds the `maxedges. Defaults to 999999
         """
         q = [
             (
@@ -86,7 +106,17 @@ def cycles_iter(
         return False
 
     def _is_spanning(cycle):
-        "Return True if the cycle spans the periodic cell."
+        """
+        The function `_is_spanning` checks if a given cycle spans the periodic cell in a simulation.
+
+        Args:
+          cycle: It seems like the `cycle` parameter is a list of indices representing a cycle in a graph or
+        a sequence. The function `_is_spanning` is checking whether this cycle spans the periodic cell based
+        on the positions stored in the `pos` variable.
+
+        Returns:
+          a boolean value - True if the cycle spans the periodic cell, and False otherwise.
+        """
         total = np.zeros_like(pos[cycle[0]])
         N = len(cycle)
         for i, j in zip(cycle[-1:] + cycle[:-1], cycle):
@@ -116,25 +146,6 @@ def cycles_iter(
                     if pos is None or not _is_spanning(i):
                         yield tuple(i)
                         rings.add(j)
-
-
-# def graph_overlap(g1, g2):
-#     """
-#     Return the common part of two graphs.
-#
-#     They are adjacent if two subgraphs share at least one vertex.
-#     """
-#     # common vertices
-#     common = g1.nodes() and g2.nodes()
-#     g = nx.Graph()
-#     for v in common:
-#         g.add_node(v)
-#     if len(common) > 0:
-#         # common edges
-#         for e in g1.edges():
-#             if g2.has_edge(*e):
-#                 g.add_edge(*e)
-#     return g
 
 
 def test():

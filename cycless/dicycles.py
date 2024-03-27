@@ -19,9 +19,9 @@ def dicycles_iter(
     directed graph.
 
     Args:
-      digraph (nx.DiGraph): The `digraph` parameter represents a directed graph. It can be represented as a data structure such as a dictionary of dictionaries or a networkx DiGraph object. It contains information about the connections between nodes in the graph.
-      size (int): The `size` parameter represents the desired length of the cycles that you want to find in the given digraph.
-      vec (bool): The `vec` parameter is a boolean flag that determines whether the orientations of the vectors are given as attributes of the edges. If `vec` is set to True, the function will check the dipole moment of each cycle to determine if it is a homodromic cycle. Defaults to False
+      digraph (nx.DiGraph): a directed graph. It can be represented as a data structure such as a dictionary of dictionaries or a networkx DiGraph object. It contains information about the connections between nodes in the graph.
+      size (int): the desired length of the cycles that you want to find in the given digraph.
+      vec (bool): a boolean flag that determines whether the orientations of the vectors are given as attributes of the edges. If `vec` is set to True, the function will check the dipole moment of each cycle to determine if it is a homodromic cycle. Defaults to False
     """
 
     # """Homodromic cycles in a given digraph.
@@ -37,14 +37,19 @@ def dicycles_iter(
 
     def _find(digraph, history, size):
         """
-        `_find` 関数は、有向グラフ内の指定されたサイズのすべてのサイクルを再帰的に検索し、それらをタプルとして返します。
-
+        The `_find` function recursively searches for all cycles of a specified size in a directed graph and
+        returns them as tuples.
+        
         Args:
-          digraph: `digraph` パラメータは有向グラフを表します。これは、辞書の辞書や networkx DiGraph
-        オブジェクトなどのデータ構造として表すことができます。これには、グラフ内のノード間の接続に関する情報が含まれます。
-          history:
-        「history」パラメータは、深さ優先検索アルゴリズムでこれまでにアクセスしたノードを追跡するリストです。これは空のリストとして開始され、アルゴリズムが進行するにつれて更新されます。
-          size: 「size」パラメータは、有向グラフ内で検索しようとしている履歴またはパスの必要な長さを表します。
+          digraph: a directed graph. It can be represented as a
+        dictionary of dictionaries or a networkx DiGraph object. It contains information about the
+        connections between nodes in the graph.
+          history: a list that tracks the nodes that have
+        been accessed so far in a depth-first search algorithm. It starts as an empty list and gets updated
+        as the algorithm progresses through the graph.
+          size: the required length of the path or
+        cycle that you are trying to search for within the directed graph. It specifies the number of nodes
+        that should be included in the cycle that is being searched for recursively.
         """
         head = history[0]
         last = history[-1]
