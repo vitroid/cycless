@@ -19,7 +19,7 @@ methodtools = "^0.4.7"
 
 [tool.poetry.group.dev.dependencies]
 networkx = "^3.2.1"
-numpy = "^1.26.2"
+numpy = ">=1.26.2"
 mdanalysis = "^2.6.1"
 py3dmol = "^2.0.4"
 twine = "^4.0.2"
