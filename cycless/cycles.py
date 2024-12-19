@@ -85,7 +85,7 @@ def cycles_iter(
             else:
                 if v0 in exclude:
                     continue
-                exclude.add(v0)
+                # exclude.add(v0)
                 for v1 in G[v0]:
                     if v1 not in exclude:
                         heapq.heappush(q, (cost + 1, path + [v1]))
