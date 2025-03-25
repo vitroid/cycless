@@ -1,8 +1,12 @@
 from logging import getLogger
 from methodtools import lru_cache
 import itertools
-from typing import Generator
+from typing import Generator, Optional, Any, Set, List, Tuple, FrozenSet
 import heapq
+from functools import wraps
+from dataclasses import dataclass
+from concurrent.futures import ProcessPoolExecutor
+import multiprocessing
 
 import numpy as np
 import networkx as nx
@@ -21,10 +25,52 @@ def centerOfMass(members, rpos):
     return com
 
 
+@dataclass
+class CyclesInputValidator:
+    """cycles_iterの入力検証クラス"""
+
+    graph: nx.Graph
+    maxsize: int
+    pos: Optional[np.ndarray] = None
+
+    def __post_init__(self):
+        """入力値の検証"""
+        self._validate_graph()
+        self._validate_maxsize()
+        self._validate_pos()
+
+    def _validate_graph(self):
+        if not isinstance(self.graph, nx.Graph):
+            raise TypeError("graph must be a NetworkX Graph")
+
+    def _validate_maxsize(self):
+        if self.maxsize < 3:
+            raise ValueError("maxsize must be at least 3")
+
+    def _validate_pos(self):
+        if self.pos is not None:
+            if not isinstance(self.pos, np.ndarray):
+                raise TypeError("pos must be a numpy array")
+            if len(self.pos) != len(self.graph):
+                raise ValueError("pos must have same length as number of nodes")
+
+
+def validate_cycles_input(func):
+    """拡張された検証デコレータ"""
+
+    @wraps(func)
+    def wrapper(graph: nx.Graph, maxsize: int, pos: Optional[np.ndarray] = None) -> Any:
+        validator = CyclesInputValidator(graph, maxsize, pos)
+        return func(graph, maxsize, pos)
+
+    return wrapper
+
+
 # Modified from CountRings class in gtihub/vitroid/countrngs
+@validate_cycles_input
 def cycles_iter(
-    graph: nx.Graph, maxsize: int, pos: np.ndarray = None
-) -> Generator[tuple, None, None]:
+    graph: nx.Graph, maxsize: int, pos: Optional[np.ndarray] = None
+) -> Generator[Tuple[int, ...], None, None]:
     """
     The function `cycles_iter` is a generator that finds all cycles in an undirected graph up to a
     specified maximum size, and optionally checks if the cycles span a periodic cell based on fractional
@@ -146,6 +192,28 @@ def cycles_iter(
                     if pos is None or not _is_spanning(i):
                         yield tuple(i)
                         rings.add(j)
+
+
+# 未検証。並列化はありがたいが、内部で呼びだしている関数の扱いを考えると、直列cycles_iterと同時にclass化するのが望まし。
+# その場合、互換性も検討する
+
+# def parallel_cycles_iter(graph, maxsize, pos=None, n_workers=None):
+#     """並列処理版のcycles_iter"""
+#     if n_workers is None:
+#         n_workers = multiprocessing.cpu_count()
+
+#     def process_node(x):
+#         cycles = []
+#         neis = sorted(graph[x])
+#         for y, z in itertools.combinations(neis, 2):
+#             cycles.extend(_complete_cycle(graph, x, y, z, maxsize))
+#         return cycles
+
+#     with ProcessPoolExecutor(max_workers=n_workers) as executor:
+#         for cycles in executor.map(process_node, graph.nodes()):
+#             for cycle in cycles:
+#                 if pos is None or not _is_spanning(cycle):
+#                     yield tuple(cycle)
 
 
 def test():
