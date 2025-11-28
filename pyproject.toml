@@ -1,5 +1,5 @@
 [project]
-
+name = "cycless"
 [project.urls]
 "Homepage" = "https://github.com/vitroid/cycless"
 "Bug Tracker" = "https://github.com/vitroid/cycless/issues"
@@ -7,15 +7,16 @@
 
 [tool.poetry]
 name = "cycless"
-version = "0.4.4"
+version = "0.6.4"
 description = "A collection of algorithms for cycles in a graph."
 authors = ["vitroid <vitroid@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 methodtools = "^0.4.7"
+click = "^8.3.1"
 
 [tool.poetry.group.dev.dependencies]
 networkx = "^3.2.1"
