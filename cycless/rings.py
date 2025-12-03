@@ -7,7 +7,7 @@ import networkx as nx
 import click
 from dataclasses import dataclass
 from functools import cache
-
+from deprecated import deprecated
 from cycless.cycles import cycles_iter
 
 
@@ -15,7 +15,7 @@ from cycless.cycles import cycles_iter
 
 
 # for pDoc3
-__all__ = ["dicycles_iter"]
+__all__ = ["rings_iter"]
 
 
 @dataclass
@@ -78,20 +78,9 @@ def symmetry(ori: tuple):
     return len(isomorphs(ori))
 
 
-def cycle_orientations_iter(
+def rings_iter(
     digraph: nx.DiGraph, maxsize: int, pos: np.ndarray = None
 ) -> Generator[tuple, None, None]:
-    """有向グラフを無向グラフとみなしてサイクルをさがし、サイクルとその上の有向辺の向きを返す。
-
-    Args:
-        digraph (nx.DiGraph): 有向グラフ
-        maxsize (int): サイクルの最大サイズ
-        pos (np.ndarray, optional): 頂点のセル相対座標。これが与えられた場合は、
-            周期境界を跨がないサイクルだけを調査する. Defaults to None.
-
-    Yields:
-        Generator[tuple, None, None]: _description_
-    """
 
     def orientations(path: tuple, digraph: nx.DiGraph) -> list:
         """与えられたパスまたはサイクルの向きの有向辺があるかどうかを、boolのリストで返す
@@ -109,6 +98,13 @@ def cycle_orientations_iter(
 
     for cycle in cycles_iter(nx.Graph(digraph), maxsize, pos):
         yield orientations(cycle, digraph)
+
+
+@deprecated("Use rings_iter instead.")
+def cycle_orientations_iter(
+    digraph: nx.DiGraph, maxsize: int, pos: np.ndarray = None
+) -> Generator[tuple, None, None]:
+    yield from rings_iter(digraph, maxsize, pos)
 
 
 @click.command()

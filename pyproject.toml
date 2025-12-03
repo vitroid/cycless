@@ -7,7 +7,7 @@ name = "cycless"
 
 [tool.poetry]
 name = "cycless"
-version = "0.6.4"
+version = "0.6.5"
 description = "A collection of algorithms for cycles in a graph."
 authors = ["vitroid <vitroid@gmail.com>"]
 license = "MIT"
@@ -17,6 +17,7 @@ readme = "README.md"
 python = ">=3.10"
 methodtools = "^0.4.7"
 click = "^8.3.1"
+deprecated = "^1.2.14"
 
 [tool.poetry.group.dev.dependencies]
 networkx = "^3.2.1"
