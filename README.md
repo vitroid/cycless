@@ -1,5 +1,7 @@
 # cycless
 
+Version 0.7
+
 A collection of algorithms to analyze a graph as a set of cycles.
 
 Some codes come from [https://github.com/vitroid/Polyhed](vitroid/Polyhed) and [https://github.com/vitroid/countrings](vitroid/countrings) are integrated and improved.
@@ -65,7 +67,6 @@ import cycless.dicycles as dc
 lattice = Lattice("1h")
 formatter = Format("raw", stage=(4,))
 raw = GenIce(lattice, signature="ice 1h", rep=[2, 2, 2]).generate_ice(formatter)
-print(raw["digraph"])
 
 for cycle in dc.dicycles_iter(raw["digraph"], size=6):
     print(cycle)

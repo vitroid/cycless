@@ -3,6 +3,7 @@ from methodtools import lru_cache
 import itertools
 from typing import Generator
 import heapq
+import warnings
 
 import numpy as np
 import networkx as nx
@@ -12,6 +13,15 @@ __all__ = ["cycles_iter"]
 
 
 def centerOfMass(members, rpos):
+    """
+    .. deprecated::
+        Use :func:`cycless.center_of_graph` instead.
+    """
+    warnings.warn(
+        "centerOfMass is deprecated. Use cycless.center_of_graph instead.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     origin = rpos[list(members)[0]]
     d = rpos[list(members)] - origin
     d -= np.floor(d + 0.5)
